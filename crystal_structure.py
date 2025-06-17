@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import argparse
 
 def read_crystal_structure(filename):
     """
@@ -83,8 +84,13 @@ def plot_crystal_structure(atoms):
     plt.show()
 
 def main():
-    filename = 'EntryWithCollCode176.hkl'
-    atoms = read_crystal_structure(filename)
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description='Read and visualize crystal structure from HKL file.')
+    parser.add_argument('input_file', help='Path to the input HKL file')
+    args = parser.parse_args()
+    
+    # Read and process the crystal structure
+    atoms = read_crystal_structure(args.input_file)
     
     # Print the atomic positions
     print("\nCrystal Structure Data:")
