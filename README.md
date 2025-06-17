@@ -13,7 +13,10 @@ The spec-like .hkl diffraciton intensities are obtained from .cif Crystallograph
 * Run
 	* ./read_hkl EntryWithCollCode176.hkl 
 
-## Python plots intensities
+## Python plot hkl intensities
 * ./hkl_reflections.py EntryWithCollCode176.hk
+* Plot real space crystal structure
+	* ./crystal_structure.py
 * Dependencies
 	* pip install numpy matplotlib
+
