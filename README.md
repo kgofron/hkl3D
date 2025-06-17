@@ -20,3 +20,6 @@ The spec-like .hkl diffraciton intensities are obtained from .cif Crystallograph
 * Dependencies
 	* pip install numpy matplotlib
 
+* Combined function
+	* ./crystal3d.py -m reflections EntryWithCollCode176.hkl
+	* ./crystal3d.py -m atoms EntryWithCollCode176.hkl
