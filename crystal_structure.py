@@ -60,13 +60,13 @@ def plot_crystal_structure(atoms):
     si_x = [atom['x'] for atom in si_atoms]
     si_y = [atom['y'] for atom in si_atoms]
     si_z = [atom['z'] for atom in si_atoms]
-    ax.scatter(si_x, si_y, si_z, c='blue', marker='o', s=100, label='Si')
+    ax.scatter(si_x, si_y, si_z, c='red', marker='s', s=100, label='Si')
     
     # Plot O atoms
     o_x = [atom['x'] for atom in o_atoms]
     o_y = [atom['y'] for atom in o_atoms]
     o_z = [atom['z'] for atom in o_atoms]
-    ax.scatter(o_x, o_y, o_z, c='red', marker='^', s=80, label='O')
+    ax.scatter(o_x, o_y, o_z, c='blue', marker='o', s=80, label='O')
     
     # Add labels and title
     ax.set_xlabel('X')
