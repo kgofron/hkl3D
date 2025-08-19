@@ -15,10 +15,13 @@ This documentation covers all aspects of the enhanced HKL3D toolkit:
 ### **Core Documentation**
 - **[Installation Guide](installation.md)** - Setup and dependency management
 - **[User Guide](user-guide.md)** - Comprehensive usage instructions and workflows
-- **[API Reference](api-reference.md)** - Technical details and function documentation
+- **[API Reference](api-reference.md)** - Detailed technical documentation for functions and classes
 - **[Examples](examples.md)** - Practical examples and use cases
 - **[File Formats](file-formats.md)** - Supported data formats and specifications
 - **[Troubleshooting](troubleshooting.md)** - Common issues and solutions
+
+### **Enhanced Tool Documentation**
+- **[Enhanced Crystal Structure](enhanced_crystal_structure.md)** - Advanced atomic radius scaling and 3D sphere visualization features
 
 ## 🎯 **Enhanced Features Overview**
 
@@ -41,6 +44,16 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 - **HKL Info Box**: On-plot information display
 - **Smart Plot Management**: Prevents overplotting and manages colorbars properly
 
+### **Enhanced Crystal Structure Tool** ⭐ **NEW**
+The `crystal_structure.py` script has been **completely enhanced** with:
+
+- **Realistic Atomic Radii**: 100+ elements with accurate data from authoritative sources
+- **3D Sphere Visualization**: True 3D spheres with mathematical accuracy
+- **Smart Auto-Scaling**: Automatic overlap reduction for crystal structure visibility
+- **Overlap Control**: Configurable target overlap ratios (0.0 = no overlap, 1.0 = full overlap)
+- **Element-Specific Colors**: Standard crystallographic color conventions
+- **Advanced Bond Visualization**: Smart chemical bond detection and display
+
 ### **Key Improvements**
 - **Unified Interface**: Single tool for both crystal structure and reflection analysis
 - **Enhanced Controls**: All advanced filtering features from the previous `hkl_reflections.py`
@@ -51,17 +64,20 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 
 ## 🛠️ **Tool Comparison**
 
-| Feature | crystal3D.py | Legacy Tools |
-|---------|--------------|--------------|
-| **Crystal Structure** | ✅ Enhanced Mode | ✅ Basic Mode |
-| **HKL Reflections** | ✅ **Enhanced Mode** | ✅ Basic Mode |
-| **HKL Range Controls** | ✅ **Advanced** | ✅ Basic |
-| **Intensity Filtering** | ✅ **Real-time** | ✅ Basic |
-| **Size Controls** | ✅ **Professional** | ✅ Basic |
-| **Interface Quality** | ✅ **16x14" Display** | ✅ Standard |
-| **View Management** | ✅ **Toggle & Reset** | ✅ Basic |
-| **Status Display** | ✅ **Real-time** | ❌ None |
-| **Memory Management** | ✅ **Smart** | ❌ Basic |
+| Feature | crystal3D.py | crystal_structure.py | Legacy Tools |
+|---------|--------------|---------------------|--------------|
+| **Crystal Structure** | ✅ Enhanced Mode | ✅ **Enhanced Mode** | ✅ Basic Mode |
+| **HKL Reflections** | ✅ **Enhanced Mode** | ❌ Not Available | ✅ Basic Mode |
+| **HKL Range Controls** | ✅ **Advanced** | ❌ Not Available | ✅ Basic |
+| **Intensity Filtering** | ✅ **Real-time** | ❌ Not Available | ✅ Basic |
+| **Size Controls** | ✅ **Professional** | ❌ Not Available | ✅ Basic |
+| **Interface Quality** | ✅ **16x14" Display** | ✅ **16x14" Display** | ✅ Standard |
+| **View Management** | ✅ **Toggle & Reset** | ❌ Not Available | ✅ Basic |
+| **Status Display** | ✅ **Real-time** | ❌ Not Available | ❌ None |
+| **Memory Management** | ✅ **Smart** | ✅ **Smart** | ❌ Basic |
+| **Atomic Radii** | ❌ Basic | ✅ **100+ Elements** | ❌ None |
+| **3D Spheres** | ❌ Basic | ✅ **Mathematical** | ❌ None |
+| **Auto-Scaling** | ❌ None | ✅ **Intelligent** | ❌ None |
 
 ## 🎨 **Visualization Capabilities**
 
@@ -70,6 +86,14 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 - **Atom Differentiation**: Visual distinction between element types
 - **Crystallographic Accuracy**: Proper aspect ratios and coordinate systems
 - **Professional Output**: High-resolution plots suitable for publications
+
+### **Enhanced Crystal Structure Visualization** ⭐ **NEW**
+- **3D Sphere Generation**: Mathematically accurate 3D spheres with triangulated surfaces
+- **Realistic Atomic Radii**: 100+ elements with authoritative scientific data
+- **Smart Auto-Scaling**: Automatic overlap reduction for optimal visibility
+- **Overlap Control**: Configurable target overlap ratios for different visualization needs
+- **Element-Specific Colors**: Standard crystallographic color conventions
+- **Advanced Bond Detection**: Intelligent chemical connectivity analysis
 
 ### **Reciprocal Space Visualization**
 - **3D HKL Plots**: Interactive reflection space exploration
@@ -99,6 +123,13 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 - **Reset Functions**: Quick restoration of default settings
 - **Status Monitoring**: Continuous feedback on current settings
 
+### **Advanced Crystal Structure Analysis** ⭐ **NEW**
+- **Overlap Analysis**: Real-time calculation of atomic overlap ratios
+- **Auto-Scaling**: Intelligent optimization of atomic radii for visibility
+- **Bond Detection**: Automatic identification of chemical bonds
+- **Distance Analysis**: 3D Euclidean distance calculations between atoms
+- **Radius Optimization**: Precise control of atomic sphere sizes
+
 ### **Data Export and Reporting**
 - **High-resolution Screenshots**: Save publication-quality images
 - **Filtered Data Access**: Export selected regions for further analysis
@@ -109,14 +140,32 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 
 ### **Quick Start**
 ```bash
-# View crystal structure
-python3 crystal3D.py -m atoms EntryWithCollCode176.hkl
+# View crystal structure with enhanced features
+python3 crystal_structure.py EntryWithCollCode176.hkl -a
 
 # View reflections with enhanced controls
 python3 crystal3D.py -m reflections EntryWithCollCode55782.hkl
 
+# View crystal structure (atoms mode)
+python3 crystal3D.py -m atoms EntryWithCollCode176.hkl
+
 # Custom size factor
 python3 crystal3D.py -m reflections -s 100 EntryWithCollCode55782.hkl
+```
+
+### **Enhanced Crystal Structure Workflow**
+```bash
+# Auto-scale for optimal visibility
+python3 crystal_structure.py data.hkl -a
+
+# No overlap (atoms just touching)
+python3 crystal_structure.py data.hkl -a -o 0.0
+
+# Moderate overlap for better visibility
+python3 crystal_structure.py data.hkl -a -o 0.3
+
+# Show chemical bonds with auto-scaling
+python3 crystal_structure.py data.hkl -a -b
 ```
 
 ### **Enhanced Workflow**
@@ -141,6 +190,12 @@ python3 crystal3D.py -m reflections -s 100 EntryWithCollCode55782.hkl
 - **Status Feedback**: Continuous information display
 - **Consistent Styling**: Professional appearance throughout
 
+### **Advanced Algorithms** ⭐ **NEW**
+- **Smart Scaling**: Mathematical optimization of atomic radii
+- **Overlap Detection**: Real-time calculation of atomic overlap ratios
+- **Bond Analysis**: Intelligent chemical connectivity detection
+- **Distance Calculations**: 3D Euclidean distance analysis
+
 ### **Error Handling**
 - **Graceful Degradation**: Handles missing or malformed data
 - **Clear Messages**: Informative error reporting
@@ -156,16 +211,16 @@ python3 crystal3D.py -m reflections -s 100 EntryWithCollCode55782.hkl
 - **Publication Preparation**: Generate high-quality figures for papers
 
 ### **Educational Applications**
-- **Crystallography Teaching**: Visualize fundamental concepts
-- **Laboratory Instruction**: Interactive data analysis
-- **Student Projects**: Hands-on crystallographic analysis
-- **Demonstration**: Show crystal structures and diffraction patterns
+- **Crystallography Teaching**: Visualize fundamental concepts with clear atomic separation
+- **Laboratory Instruction**: Interactive data analysis with optimal scaling
+- **Student Projects**: Hands-on crystallographic analysis with professional tools
+- **Demonstration**: Show crystal structures and diffraction patterns clearly
 
 ### **Professional Applications**
-- **Materials Science**: Analyze crystal structures and properties
-- **Pharmaceutical Research**: Study drug crystal forms
-- **Mineralogy**: Examine geological crystal structures
-- **Quality Control**: Verify crystallographic data integrity
+- **Materials Science**: Analyze crystal structures and properties with optimal visibility
+- **Pharmaceutical Research**: Study drug crystal forms with clear atomic positions
+- **Mineralogy**: Examine geological crystal structures with proper scaling
+- **Quality Control**: Verify crystallographic data integrity with clear visualization
 
 ## 🌟 **Why Choose Enhanced HKL3D?**
 
@@ -183,6 +238,7 @@ python3 crystal3D.py -m reflections -s 100 EntryWithCollCode55782.hkl
 - **Real-time Filtering**: Immediate visual feedback on all changes
 - **Smart Controls**: Intelligent plot management and memory handling
 - **Enhanced Usability**: Intuitive interface with comprehensive feedback
+- **Overlap Management**: Intelligent atomic radius scaling for optimal visibility
 
 ### **Future Ready**
 - **Extensible Architecture**: Easy to add new features
@@ -198,6 +254,7 @@ This documentation is organized to provide both **quick start** information and 
 - **Reference**: Complete API documentation
 - **Examples**: Practical use cases and workflows
 - **Troubleshooting**: Solutions to common issues
+- **Enhanced Tools**: Specialized documentation for advanced features
 
 ## 🆘 **Getting Help**
 
@@ -206,6 +263,7 @@ This documentation is organized to provide both **quick start** information and 
 - **Examples**: Practical examples and workflows
 - **API Reference**: Technical function documentation
 - **Troubleshooting**: Common issues and solutions
+- **Enhanced Crystal Structure**: Advanced atomic radius scaling features
 
 ### **Support Options**
 - **Self-Help**: Comprehensive documentation coverage
@@ -217,4 +275,4 @@ This documentation is organized to provide both **quick start** information and 
 
 **Welcome to the enhanced HKL3D project** - your comprehensive solution for professional crystallographic analysis and visualization! 🎉
 
-*This documentation covers all the enhanced features and capabilities now available in the unified crystal3D.py tool.*
+*This documentation covers all the enhanced features and capabilities now available in the unified crystal3D.py tool and the enhanced crystal_structure.py tool.*
