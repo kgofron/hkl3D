@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from matplotlib.widgets import Slider, Button, TextBox
 import argparse
 import math
 
@@ -274,7 +275,8 @@ def create_sphere(center, radius, resolution=20):
     return vertices, faces
 
 def plot_crystal_structure(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5, 
-                          auto_scale=False, target_overlap=0.1, show_overlap_info=True):
+                          auto_scale=False, target_overlap=0.1, show_overlap_info=True,
+                          interactive=False):
     """
     Create a 3D plot of the crystal structure with atoms as 3D spheres.
     
@@ -286,6 +288,7 @@ def plot_crystal_structure(atoms, scale_factor=1.0, show_bonds=False, bond_cutof
     - auto_scale: Whether to automatically calculate optimal scale factor (default: False)
     - target_overlap: Target overlap ratio for auto-scaling (default: 0.1)
     - show_overlap_info: Whether to display overlap analysis information (default: True)
+    - interactive: Whether to add interactive scaling controls (default: False)
     """
     # Auto-scale if requested
     if auto_scale:
@@ -302,114 +305,195 @@ def plot_crystal_structure(atoms, scale_factor=1.0, show_bonds=False, bond_cutof
         print(f"  Using auto-calculated scale factor: {scale_factor:.3f}")
     
     # Create figure and 3D axes
-    fig = plt.figure(figsize=(16, 14))
-    ax = fig.add_subplot(111, projection='3d')
+    if interactive:
+        fig = plt.figure(figsize=(18, 14))
+        ax = fig.add_subplot(111, projection='3d')
+    else:
+        fig = plt.figure(figsize=(16, 14))
+        ax = fig.add_subplot(111, projection='3d')
     
-    # Group atoms by element type
-    element_groups = {}
-    for atom in atoms:
-        element = ''.join(filter(str.isalpha, atom['name']))
-        if element not in element_groups:
-            element_groups[element] = []
-        element_groups[element].append(atom)
+    # Store original data for interactive updates
+    original_atoms = atoms.copy()
+    current_scale = scale_factor
     
-    # Plot atoms as 3D spheres
-    all_spheres = []
-    legend_elements = []
-    
-    for element, element_atoms in element_groups.items():
-        if not element_atoms:
-            continue
-            
-        # Get element properties
-        radius = get_atomic_radius(element) * scale_factor
-        color = get_element_color(element)
+    def update_plot(new_scale):
+        """Update the plot with new scale factor"""
+        nonlocal current_scale
+        current_scale = new_scale
         
-        # Create spheres for all atoms of this element
-        for atom in element_atoms:
-            center = (atom['x'], atom['y'], atom['z'])
-            vertices, faces = create_sphere(center, radius, resolution=15)
-            
-            # Create 3D polygon collection for the sphere
-            sphere = Poly3DCollection([vertices[face] for face in faces], 
-                                    alpha=0.8, facecolor=color, edgecolor='black', linewidth=0.5)
-            ax.add_collection3d(sphere)
-            all_spheres.append(sphere)
+        # Clear the plot
+        ax.clear()
         
-        # Add to legend
-        legend_elements.append(plt.Line2D([0], [0], marker='o', color='w', 
-                                        markerfacecolor=color, markersize=10, 
-                                        label=f'{element} (r={radius:.2f} Å)'))
-    
-    # Show bonds if requested
-    if show_bonds:
-        bond_lines = []
-        for i, atom1 in enumerate(atoms):
-            for j, atom2 in enumerate(atoms[i+1:], i+1):
-                # Calculate distance
-                dx = atom1['x'] - atom2['x']
-                dy = atom1['y'] - atom2['y']
-                dz = atom1['z'] - atom2['z']
-                distance = math.sqrt(dx*dx + dy*dy + dz*dz)
+        # Group atoms by element type
+        element_groups = {}
+        for atom in original_atoms:
+            element = ''.join(filter(str.isalpha, atom['name']))
+            if element not in element_groups:
+                element_groups[element] = []
+            element_groups[element].append(atom)
+        
+        # Plot atoms as 3D spheres with new scale
+        all_spheres = []
+        legend_elements = []
+        
+        for element, element_atoms in element_groups.items():
+            if not element_atoms:
+                continue
                 
-                # Check if atoms are close enough to form a bond
-                if distance <= bond_cutoff:
-                    # Get atomic radii
-                    r1 = get_atomic_radius(atom1['name']) * scale_factor
-                    r2 = get_atomic_radius(atom2['name']) * scale_factor
+            # Get element properties
+            radius = get_atomic_radius(element) * new_scale
+            color = get_element_color(element)
+            
+            # Create spheres for all atoms of this element
+            for atom in element_atoms:
+                center = (atom['x'], atom['y'], atom['z'])
+                vertices, faces = create_sphere(center, radius, resolution=15)
+                
+                # Create 3D polygon collection for the sphere
+                sphere = Poly3DCollection([vertices[face] for face in faces], 
+                                        alpha=0.8, facecolor=color, edgecolor='black', linewidth=0.5)
+                ax.add_collection3d(sphere)
+                all_spheres.append(sphere)
+            
+            # Add to legend
+            legend_elements.append(plt.Line2D([0], [0], marker='o', color='w', 
+                                            markerfacecolor=color, markersize=10, 
+                                            label=f'{element} (r={radius:.2f} Å)'))
+        
+        # Show bonds if requested
+        if show_bonds:
+            bond_lines = []
+            for i, atom1 in enumerate(original_atoms):
+                for j, atom2 in enumerate(original_atoms[i+1:], i+1):
+                    # Calculate distance
+                    dx = atom1['x'] - atom2['x']
+                    dy = atom1['y'] - atom2['y']
+                    dz = atom1['z'] - atom2['z']
+                    distance = math.sqrt(dx*dx + dy*dy + dz*dz)
                     
-                    # Check if atoms are actually touching (within 20% of sum of radii)
-                    if distance <= 1.2 * (r1 + r2):
-                        bond_lines.append([[atom1['x'], atom1['y'], atom1['z']],
-                                         [atom2['x'], atom2['y'], atom2['z']]])
+                    # Check if atoms are close enough to form a bond
+                    if distance <= bond_cutoff:
+                        # Get atomic radii
+                        r1 = get_atomic_radius(atom1['name']) * new_scale
+                        r2 = get_atomic_radius(atom2['name']) * new_scale
+                        
+                        # Check if atoms are actually touching (within 20% of sum of radii)
+                        if distance <= 1.2 * (r1 + r2):
+                            bond_lines.append([[atom1['x'], atom1['y'], atom1['z']],
+                                             [atom2['x'], atom2['y'], atom2['z']]])
+            
+            # Plot bonds
+            for bond in bond_lines:
+                ax.plot([bond[0][0], bond[1][0]], 
+                       [bond[0][1], bond[1][1]], 
+                       [bond[0][2], bond[1][2]], 
+                       'k-', linewidth=2, alpha=0.7)
         
-        # Plot bonds
-        for bond in bond_lines:
-            ax.plot([bond[0][0], bond[1][0]], 
-                   [bond[0][1], bond[1][1]], 
-                   [bond[0][2], bond[1][2]], 
-                   'k-', linewidth=1, alpha=0.6)
-    
-    # Set labels and title
-    ax.set_xlabel('X (Fractional Coordinates)')
-    ax.set_ylabel('Y (Fractional Coordinates)')
-    ax.set_zlabel('Z (Fractional Coordinates)')
-    
-    title_text = f'Crystal Structure with Atomic Radii\nScale Factor: {scale_factor:.3f}x'
-    if auto_scale:
-        title_text += ' (Auto-scaled)'
-    ax.set_title(title_text)
-    
-    # Add legend
-    ax.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1.15, 1.0))
-    
-    # Set equal aspect ratio
-    ax.set_box_aspect([1, 1, 1])
-    
-    # Auto-adjust view limits
-    all_x = [atom['x'] for atom in atoms]
-    all_y = [atom['y'] for atom in atoms]
-    all_z = [atom['z'] for atom in atoms]
-    
-    # Add padding for atomic radii
-    max_radius = max([get_atomic_radius(atom['name']) * scale_factor for atom in atoms])
-    padding = max_radius + 0.1
-    
-    ax.set_xlim([min(all_x) - padding, max(all_x) + padding])
-    ax.set_ylim([min(all_y) - padding, max(all_y) + padding])
-    ax.set_zlim([min(all_z) - padding, max(all_z) + padding])
-    
-    # Add grid
-    ax.grid(True, alpha=0.3)
-    
-    # Add scale factor information
-    if show_overlap_info:
-        info_text = f'Scale Factor: {scale_factor:.3f}x\n'
-        info_text += f'Min Distance: {min(all_x):.3f} to {max(all_x):.3f}\n'
-        info_text += f'Max Radius: {max_radius:.3f} Å'
+        # Restore plot elements
+        ax.set_xlabel('X (fractional coordinates)')
+        ax.set_ylabel('Y (fractional coordinates)')
+        ax.set_zlabel('Z (fractional coordinates)')
         
-        ax.text2D(0.02, 0.02, info_text, transform=ax.transAxes, fontsize=10,
-                  bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+        # Set title with current scale
+        title = f'Crystal Structure - Atomic Radii Scale: {new_scale:.3f}x'
+        if auto_scale:
+            title += f' (Auto-scaled, target overlap: {target_overlap:.1%})'
+        ax.set_title(title, fontsize=14, fontweight='bold')
+        
+        # Set equal aspect ratio
+        ax.set_box_aspect([1, 1, 1])
+        
+        # Auto-adjust view limits
+        all_x = [atom['x'] for atom in original_atoms]
+        all_y = [atom['y'] for atom in original_atoms]
+        all_z = [atom['z'] for atom in original_atoms]
+        
+        # Add padding for atomic radii
+        max_radius = max([get_atomic_radius(atom['name']) * new_scale for atom in original_atoms])
+        padding = max_radius + 0.1
+        
+        ax.set_xlim([min(all_x) - padding, max(all_x) + padding])
+        ax.set_ylim([min(all_y) - padding, max(all_y) + padding])
+        ax.set_zlim([min(all_z) - padding, max(all_z) + padding])
+        
+        # Add grid
+        ax.grid(True, alpha=0.3)
+        
+        # Add scale factor information at top-left, aligned with status box
+        if show_overlap_info:
+            info_text = f'Scale Factor: {new_scale:.3f}x\n'
+            info_text += f'Min Distance: {min(all_x):.3f} to {max(all_x):.3f}\n'
+            info_text += f'Max Radius: {max_radius:.3f} Å'
+            
+            ax.text2D(0.05, 0.95, info_text, transform=ax.transAxes, fontsize=10,
+                      bbox=dict(boxstyle='round', facecolor='white', alpha=0.8),
+                      verticalalignment='top')
+        
+        # Add legend
+        ax.legend(handles=legend_elements, loc='upper right')
+        
+        # Redraw
+        fig.canvas.draw_idle()
+    
+    # Initial plot
+    update_plot(scale_factor)
+    
+    # Add interactive controls if requested
+    if interactive:
+        # Adjust layout to make room for controls (left side and bottom)
+        plt.subplots_adjust(left=0.15, bottom=0.15)
+        
+        # Create slider for scale factor at the bottom
+        ax_scale = plt.axes([0.2, 0.05, 0.6, 0.03])
+        scale_slider = Slider(
+            ax=ax_scale, label='Atomic Radius Scale',
+            valmin=0.01, valmax=1.0, valinit=scale_factor,
+            valfmt='%.3f'
+        )
+        
+        # Create vertical buttons on the left side (smaller size)
+        ax_reset = plt.axes([0.02, 0.75, 0.10, 0.03])
+        reset_button = Button(ax_reset, 'Reset')
+        
+        ax_auto = plt.axes([0.02, 0.70, 0.10, 0.03])
+        auto_button = Button(ax_auto, 'Auto-Scale')
+        
+        ax_optimal = plt.axes([0.02, 0.65, 0.10, 0.03])
+        optimal_button = Button(ax_optimal, 'Optimal')
+        
+        # Create status textbox between Scale Factor info and Reset button
+        ax_status = plt.axes([0.02, 0.82, 0.12, 0.04])
+        status_textbox = TextBox(ax_status, 'Status:', initial='Ready')
+        
+        # Connect controls
+        def on_scale_change(val):
+            update_plot(val)
+            status_textbox.set_val(f'Scale: {val:.3f}x')
+        
+        def on_reset_click(event):
+            scale_slider.set_val(1.0)
+            status_textbox.set_val('Reset to 1.0x')
+        
+        def on_auto_click(event):
+            if auto_scale:
+                optimal_scale, _ = calculate_optimal_scale_factor(original_atoms, target_overlap)
+                scale_slider.set_val(optimal_scale)
+                status_textbox.set_val(f'Auto-scaled: {optimal_scale:.3f}x')
+            else:
+                status_textbox.set_val('Auto-scale not enabled')
+        
+        def on_optimal_click(event):
+            optimal_scale, _ = calculate_optimal_scale_factor(original_atoms, 0.0)  # No overlap
+            scale_slider.set_val(optimal_scale)
+            status_textbox.set_val(f'Optimal (no overlap): {optimal_scale:.3f}x')
+        
+        scale_slider.on_changed(on_scale_change)
+        reset_button.on_clicked(on_reset_click)
+        auto_button.on_clicked(on_auto_click)
+        optimal_button.on_clicked(on_optimal_click)
+        
+        # Initial status
+        status_textbox.set_val(f'Initial scale: {scale_factor:.3f}x')
     
     # Show the plot
     plt.tight_layout()
@@ -463,6 +547,8 @@ def main():
                        help='Target overlap ratio for auto-scaling (0.0-1.0, default: 0.1)')
     parser.add_argument('--no-overlap-info', action='store_true',
                        help='Hide overlap analysis information')
+    parser.add_argument('-i', '--interactive', action='store_true',
+                       help='Enable interactive atomic radius scaling controls')
     
     args = parser.parse_args()
     
@@ -480,7 +566,8 @@ def main():
     plot_crystal_structure(atoms, scale_factor=args.scale, 
                           show_bonds=args.bonds, bond_cutoff=args.cutoff,
                           auto_scale=args.auto_scale, target_overlap=args.overlap,
-                          show_overlap_info=not args.no_overlap_info)
+                          show_overlap_info=not args.no_overlap_info,
+                          interactive=args.interactive)
 
 if __name__ == "__main__":
     main() 

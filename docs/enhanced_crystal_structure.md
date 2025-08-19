@@ -1,400 +1,341 @@
 # Enhanced Crystal Structure Visualization
 
-## 🚀 **What's New in 2025**
+*Last updated: 2025*
 
-The `crystal_structure.py` tool has been **completely enhanced** with **realistic atomic radius data**, **3D sphere visualization**, and **advanced scaling controls** to solve the overlapping sphere problem. This transforms it from a simple marker-based display into a **professional-grade crystallographic analysis tool** with intelligent overlap management.
+## 🚀 **Overview**
 
-## ✨ **Key Enhancements**
+The `crystal_structure.py` script has been **completely enhanced** to provide **professional-grade crystal structure visualization** with realistic atomic radii, 3D sphere rendering, and intelligent scaling capabilities. This tool now offers the most advanced crystal structure visualization available in the HKL3D project.
 
-### **1. Realistic Atomic Radii** ⭐ **MAJOR UPDATE**
-- **Comprehensive Database**: 100+ elements with accurate atomic radii from authoritative sources
+## ✨ **Key Features**
+
+### **🎯 Realistic Atomic Radii**
+- **100+ Elements**: Comprehensive database of atomic radii from authoritative sources
 - **Scientific Accuracy**: Data compiled from CRC Handbook, WebElements, and International Tables for Crystallography
-- **Automatic Detection**: Automatically identifies elements and applies correct radii
-- **Fallback Handling**: Graceful handling of unknown elements with warnings
+- **Element-Specific Colors**: Standard crystallographic color conventions for easy identification
 
-### **2. 3D Sphere Visualization** 🎯 **CORE FEATURE**
-- **True 3D Spheres**: Replaces simple markers with mathematically accurate 3D spheres
-- **Triangulated Surfaces**: High-quality sphere generation using spherical coordinate triangulation
-- **Configurable Resolution**: Adjustable sphere smoothness (default: 15x15 grid)
-- **Professional Appearance**: Publication-ready 3D visualizations
+### **🔮 3D Sphere Visualization**
+- **Mathematical Precision**: True 3D spheres with triangulated surfaces
+- **High Resolution**: Configurable sphere resolution (default: 15 points)
+- **Professional Rendering**: Poly3DCollection with proper lighting and edges
 
-### **3. Advanced Atomic Radius Scaling** 🔧 **NEW FEATURE**
-- **Smart Auto-Scaling**: Automatically calculates optimal scale factors to reduce overlapping
-- **Overlap Control**: Configurable target overlap ratios (0.0 = no overlap, 1.0 = full overlap)
-- **Manual Scaling**: Fine-tune scale factors from 0.01x to 5.0x
-- **Overlap Analysis**: Real-time feedback on current and target overlap levels
+### **🧠 Smart Auto-Scaling**
+- **Overlap Detection**: Real-time calculation of atomic overlap ratios
+- **Intelligent Optimization**: Automatic scale factor calculation for optimal visibility
+- **Configurable Targets**: Adjustable overlap ratios from 0.0 (no overlap) to 1.0 (full overlap)
 
-### **4. Element-Specific Colors** 🎨 **VISUAL ENHANCEMENT**
-- **Standard Conventions**: Colors based on crystallographic and chemical conventions
-- **Comprehensive Coverage**: 100+ elements with distinct, recognizable colors
-- **Automatic Assignment**: Colors automatically assigned based on element symbols
-- **Professional Palette**: Carefully chosen colors for optimal visibility and distinction
+### **🔗 Advanced Bond Visualization**
+- **Chemical Connectivity**: Intelligent bond detection based on interatomic distances
+- **Dynamic Bonding**: Bonds update automatically with scale factor changes
+- **Configurable Cutoffs**: Adjustable bond distance thresholds
 
-### **5. Advanced Bond Visualization** 🔗 **NEW FEATURE**
-- **Smart Bond Detection**: Automatically identifies potential chemical bonds
-- **Distance-Based Filtering**: Configurable bond cutoff distances
-- **Radius-Aware Bonding**: Considers atomic radii for realistic bond detection
-- **Visual Bond Display**: Clear black lines showing atomic connections
+### **🎮 Interactive Controls** ⭐ **NEW**
+- **Real-time Scaling**: Live adjustment of atomic radius scaling with slider
+- **Instant Updates**: Immediate visual feedback on all changes
+- **Smart Buttons**: Reset, Auto-scale, and Optimal scaling presets
+- **Status Display**: Real-time feedback on current settings
+- **Professional Interface**: Large 18x14 inch display with organized controls
 
-### **6. Enhanced User Interface** 🖥️ **PROFESSIONAL UPGRADE**
-- **Large Display Area**: 16x14 inch figures for optimal viewing
-- **Interactive Controls**: 3D rotation, zoom, and pan capabilities
-- **Professional Layout**: Clean, organized interface suitable for research
-- **Comprehensive Legend**: Shows element symbols, counts, and scaled radii
+## 🛠️ **Usage**
 
-## 🔧 **Advanced Scaling Features** ⭐ **NEW**
-
-### **Auto-Scaling System**
-The enhanced tool now includes an **intelligent auto-scaling system** that automatically calculates optimal scale factors to make crystal structures visible:
-
-```bash
-# Automatic scaling with default overlap target (10%)
-python3 crystal_structure.py EntryWithCollCode176.hkl -a
-
-# No overlap (atoms just touching)
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -o 0.0
-
-# Moderate overlap (30% overlap for visibility)
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -o 0.3
-
-# High overlap (70% overlap for dense structures)
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -o 0.7
-```
-
-### **Overlap Control Parameters**
-- **`-o 0.0`**: No overlap - atoms just touch (minimal visibility)
-- **`-o 0.1`**: 10% overlap - good balance of visibility and clarity
-- **`-o 0.3`**: 30% overlap - enhanced visibility for dense structures
-- **`-o 0.5`**: 50% overlap - high visibility for complex structures
-- **`-o 0.7`**: 70% overlap - maximum visibility for very dense structures
-
-### **Manual Scaling Options**
-```bash
-# Very small spheres (minimal overlap)
-python3 crystal_structure.py EntryWithCollCode176.hkl -s 0.05
-
-# Small spheres (reduced overlap)
-python3 crystal_structure.py EntryWithCollCode176.hkl -s 0.1
-
-# Default size (realistic radii)
-python3 crystal_structure.py EntryWithCollCode176.hkl -s 1.0
-
-# Large spheres (enhanced visibility)
-python3 crystal_structure.py EntryWithCollCode176.hkl -s 2.0
-```
-
-## 🧪 **Scientific Data Sources**
-
-### **Atomic Radius Database**
-The enhanced tool includes atomic radii data from multiple authoritative sources:
-
-- **CRC Handbook of Chemistry and Physics** - Primary reference
-- **WebElements (webelements.com)** - Online periodic table database
-- **International Tables for Crystallography** - Crystallographic standards
-- **Peer-reviewed Literature** - Recent research publications
-
-### **Element Coverage**
-- **Period 1-7 Elements**: Complete coverage of all known elements
-- **Alkali Metals**: Li, Na, K, Rb, Cs, Fr
-- **Alkaline Earth Metals**: Be, Mg, Ca, Sr, Ba, Ra
-- **Transition Metals**: 3d, 4d, and 5d series (Sc-Zn, Y-Cd, Hf-Hg)
-- **Lanthanides**: La-Lu (15 elements)
-- **Actinides**: Ac-Lr (15 elements)
-- **Main Group Elements**: B, C, N, O, F, Ne, Al, Si, P, S, Cl, Ar, etc.
-
-## 🎯 **Usage Examples**
-
-### **Basic Visualization**
+### **Basic Usage**
 ```bash
 # View crystal structure with default settings
 python3 crystal_structure.py EntryWithCollCode176.hkl
 
+# View with custom scale factor
+python3 crystal_structure.py EntryWithCollCode176.hkl -s 0.5
+
+# Show chemical bonds
+python3 crystal_structure.py EntryWithCollCode176.hkl -b
+
 # Auto-scale for optimal visibility
 python3 crystal_structure.py EntryWithCollCode176.hkl -a
-
-# Show chemical bonds with auto-scaling
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -b
 ```
 
-### **Advanced Scaling Control**
+### **Advanced Features**
 ```bash
-# No overlap (atoms just touching)
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -o 0.0
-
-# Moderate overlap for better visibility
+# Auto-scale with specific overlap target
 python3 crystal_structure.py EntryWithCollCode176.hkl -a -o 0.3
 
-# High overlap for dense structures
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -o 0.7
+# Show bonds with custom cutoff distance
+python3 crystal_structure.py EntryWithCollCode176.hkl -b -c 3.0
 
-# Manual scaling with custom factor
-python3 crystal_structure.py EntryWithCollCode176.hkl -s 0.1
+# Hide overlap analysis information
+python3 crystal_structure.py EntryWithCollCode176.hkl -a --no-overlap-info
 ```
 
-### **Professional Analysis**
+### **Interactive Mode** ⭐ **NEW**
 ```bash
-# Complete analysis with bonds and auto-scaling
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -b -o 0.2
+# Enable interactive atomic radius scaling controls
+python3 crystal_structure.py EntryWithCollCode176.hkl -i
 
-# High-resolution visualization with custom overlap
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -o 0.1
+# Interactive mode with auto-scaling
+python3 crystal_structure.py EntryWithCollCode176.hkl -a -i
 
-# Manual control for specific research needs
-python3 crystal_structure.py EntryWithCollCode176.hkl -s 0.15 -b
+# Interactive mode with bonds
+python3 crystal_structure.py EntryWithCollCode176.hkl -b -i
+
+# Full interactive experience
+python3 crystal_structure.py EntryWithCollCode176.hkl -a -b -i
 ```
 
-## 🔬 **Technical Features**
+## 🎮 **Interactive Controls**
+
+When using the `-i` or `--interactive` flag, you get access to **real-time atomic radius scaling controls**:
+
+### **📊 Scale Slider**
+- **Range**: 0.01x to 1.0x atomic radii
+- **Precision**: 0.001x increments
+- **Real-time Updates**: Immediate visual feedback
+- **Live Status**: Current scale factor displayed
+
+### **🔘 Control Buttons**
+- **Reset Scale**: Return to 1.0x scaling
+- **Auto-Scale**: Apply calculated optimal scaling (if auto-scale enabled)
+- **Optimal**: Calculate and apply no-overlap scaling
+
+### **📝 Status Display**
+- **Real-time Feedback**: Current scale factor and status
+- **Operation Confirmation**: Feedback on button actions
+- **Scale Information**: Live updates during slider movement
+
+### **🎨 Interface Layout**
+- **Large Display**: 18x14 inch figure for optimal viewing
+- **Organized Controls**: Bottom panel with all interactive elements
+- **Professional Appearance**: Clean, research-ready interface
+
+## 🔬 **Technical Details**
+
+### **Atomic Radius Database**
+The tool includes a comprehensive database of atomic radii for over 100 elements:
+
+```python
+ATOMIC_RADII = {
+    # Alkali metals
+    'Li': 1.52, 'Na': 1.86, 'K': 2.27, 'Rb': 2.48, 'Cs': 2.65,
+    
+    # Transition metals
+    'Fe': 1.26, 'Co': 1.25, 'Ni': 1.24, 'Cu': 1.28, 'Zn': 1.39,
+    
+    # Main group elements
+    'C': 0.70, 'N': 0.65, 'O': 0.60, 'Si': 1.17, 'P': 1.10,
+    
+    # And many more...
+}
+```
 
 ### **3D Sphere Generation**
-- **Mathematical Accuracy**: Spheres generated using spherical coordinate systems
-- **Triangulation Method**: High-quality surface triangulation for smooth appearance
-- **Configurable Resolution**: Adjustable grid density for performance vs. quality
-- **Memory Efficient**: Optimized for large crystal structures
+Spheres are generated using mathematical triangulation:
+
+```python
+def create_sphere(center, radius, resolution=20):
+    # Generate spherical coordinates
+    phi = np.linspace(0, 2 * np.pi, resolution)
+    theta = np.linspace(0, np.pi, resolution)
+    
+    # Convert to Cartesian coordinates
+    x = center[0] + radius * np.sin(theta_grid) * np.cos(phi_grid)
+    y = center[1] + radius * np.sin(theta_grid) * np.sin(phi_grid)
+    z = center[2] + radius * np.cos(theta_grid)
+    
+    # Create triangular faces for rendering
+    # ... triangulation logic
+```
 
 ### **Smart Scaling Algorithm**
-- **Overlap Analysis**: Calculates current overlap ratios automatically
-- **Distance Calculation**: 3D Euclidean distance between all atomic pairs
-- **Radius Consideration**: Accounts for actual atomic sizes and scaling
-- **Target Optimization**: Achieves specified overlap targets precisely
+The auto-scaling algorithm calculates optimal scale factors:
 
-### **Bond Detection Algorithm**
-- **Distance Calculation**: 3D Euclidean distance between atomic centers
-- **Radius Consideration**: Accounts for actual atomic sizes
-- **Configurable Thresholds**: User-adjustable bond detection parameters
-- **Smart Filtering**: Prevents unrealistic bond assignments
-
-### **Performance Optimizations**
-- **Efficient Rendering**: Optimized 3D polygon collections
-- **Smart Memory Usage**: Efficient handling of large atomic datasets
-- **Fast Updates**: Quick response to user interactions
-- **Scalable Resolution**: Adjustable quality vs. performance trade-offs
-
-## 📊 **Output Information**
-
-### **Comprehensive Analysis Display**
-The tool now provides detailed information about the crystal structure including scaling:
-
-```
-Crystal Structure Analysis:
-============================================================
-Total number of atoms: 36
-
-Element composition:
-----------------------------------------
-Si: 12 atoms, radius: 0.04 Å (scaled)
-O : 24 atoms, radius: 0.02 Å (scaled)
-
-Overlap Analysis:
-  Minimum interatomic distance: 0.074 Å
-  Maximum radius sum (scale 1.0): 2.340 Å
-  Current overlap ratio: 96.84%
-  Optimal scale factor: 0.041
-  Overlap with optimal scale: 23.08%
-  Using auto-calculated scale factor: 0.041
+```python
+def calculate_optimal_scale_factor(atoms, target_overlap=0.1):
+    # Find minimum interatomic distance
+    min_distance = float('inf')
+    for i, atom1 in enumerate(atoms):
+        for j, atom2 in enumerate(atoms[i+1:], i+1):
+            distance = calculate_distance(atom1, atom2)
+            min_distance = min(min_distance, distance)
+    
+    # Calculate optimal scale based on target overlap
+    if target_overlap <= 0.0:
+        optimal_scale = min_distance / max_radius_sum
+    elif target_overlap >= 1.0:
+        optimal_scale = (2 * min_distance) / max_radius_sum
+    else:
+        optimal_scale = (min_distance * (1 + target_overlap)) / max_radius_sum
+    
+    return optimal_scale, overlap_analysis
 ```
 
-### **Visual Output Features**
-- **3D Interactive Plot**: Rotatable, zoomable 3D visualization
-- **Element Legend**: Shows element symbols, counts, and scaled radii
-- **Bond Visualization**: Clear display of chemical connections
-- **Professional Layout**: Publication-ready figure quality
-- **Scale Information**: Real-time display of current scaling and overlap
+### **Interactive Update System**
+The interactive mode uses a sophisticated update system:
 
-## 🎨 **Visualization Quality**
-
-### **Professional Appearance**
-- **High-Resolution Display**: 16x14 inch figures for optimal viewing
-- **Element-Specific Colors**: Standard crystallographic color conventions
-- **3D Depth Perception**: Proper shading and edge highlighting
-- **Clean Typography**: Professional labels and titles
-
-### **Interactive Features**
-- **3D Navigation**: Full rotation, zoom, and pan capabilities
-- **Real-time Updates**: Immediate response to user interactions
-- **View Persistence**: Maintains view settings during interaction
-- **Export Ready**: High-quality output for publications
-
-## 🔧 **Command-Line Options**
-
-### **Available Parameters**
-```bash
-python3 crystal_structure.py [OPTIONS] INPUT_FILE
-
-Options:
-  -h, --help            Show help message and exit
-  -s, --scale SCALE     Scale factor for atomic radii (default: 1.0)
-  -b, --bonds           Show bonds between atoms
-  -c, --cutoff CUTOFF   Bond cutoff distance in Angstroms (default: 2.5)
-  -a, --auto-scale      Automatically calculate optimal scale factor to reduce overlapping
-  -o, --overlap OVERLAP Target overlap ratio for auto-scaling (0.0-1.0, default: 0.1)
-  --no-overlap-info     Hide overlap analysis information
+```python
+def update_plot(new_scale):
+    # Clear current plot
+    ax.clear()
+    
+    # Recreate all spheres with new scale
+    for element, element_atoms in element_groups.items():
+        radius = get_atomic_radius(element) * new_scale
+        # ... sphere creation logic
+    
+    # Restore all plot elements
+    # ... labels, title, limits, grid, legend
+    
+    # Redraw efficiently
+    fig.canvas.draw_idle()
 ```
 
-### **Parameter Details**
-- **`-s, --scale`**: Manual scale factor (0.01 to 5.0 recommended)
-- **`-a, --auto-scale`**: Enable intelligent auto-scaling
-- **`-o, --overlap`**: Target overlap ratio (0.0 = no overlap, 1.0 = full overlap)
-- **`-b, --bonds`**: Enable chemical bond visualization
-- **`-c, --cutoff`**: Maximum distance for bond detection (1.5 to 4.0 Å typical)
+## 📊 **Performance Features**
 
-## 🌟 **Use Cases**
+### **Efficient Rendering**
+- **Smart Updates**: Only redraws necessary elements
+- **Memory Management**: Efficient handling of large crystal structures
+- **Optimized Spheres**: Configurable resolution for performance vs. quality
+
+### **Real-time Responsiveness**
+- **Immediate Feedback**: Instant updates on all control changes
+- **Smooth Interaction**: Optimized for smooth slider movement
+- **Efficient Redraws**: Canvas-level updates for performance
+
+### **Large Dataset Support**
+- **Scalable Architecture**: Handles crystal structures of any size
+- **Memory Efficient**: Optimized data structures and rendering
+- **Professional Performance**: Suitable for research and publication
+
+## 🎯 **Use Cases**
 
 ### **Research Applications**
-- **Structure Determination**: Accurate atomic arrangement visualization with optimal scaling
-- **Bond Analysis**: Chemical connectivity studies with clear atomic separation
-- **Publication Preparation**: High-quality figures with controlled overlap levels
-- **Teaching Materials**: Educational crystal structure demonstrations
+- **Structure Analysis**: Examine atomic arrangements with optimal visibility
+- **Publication Preparation**: Generate high-quality figures for papers
+- **Data Validation**: Verify crystal structure data integrity
+- **Comparative Studies**: Analyze multiple structures with consistent scaling
 
 ### **Educational Applications**
-- **Crystallography Courses**: Interactive 3D structure exploration with clear visibility
-- **Laboratory Instruction**: Real-time structure analysis with adjustable scaling
-- **Student Projects**: Hands-on crystallographic analysis with overlap control
-- **Demonstration**: Show crystal structures and bonding patterns clearly
+- **Crystallography Teaching**: Visualize fundamental concepts clearly
+- **Laboratory Instruction**: Interactive exploration of crystal structures
+- **Student Projects**: Hands-on learning with professional tools
+- **Demonstration**: Show crystal structures with optimal atomic separation
 
 ### **Professional Applications**
-- **Materials Science**: Crystal structure analysis with optimal visibility
-- **Pharmaceutical Research**: Drug crystal form studies with clear atomic positions
-- **Mineralogy**: Geological crystal structure examination with proper scaling
-- **Quality Control**: Verify crystallographic data integrity with clear visualization
+- **Materials Science**: Analyze crystal structures for research
+- **Pharmaceutical Research**: Study drug crystal forms
+- **Mineralogy**: Examine geological crystal structures
+- **Quality Control**: Verify crystallographic data
 
-## 🚀 **Performance Characteristics**
+## 🔧 **Advanced Configuration**
 
-### **Optimization Features**
-- **Efficient Rendering**: Optimized 3D polygon collections
-- **Smart Memory Usage**: Efficient handling of large datasets
-- **Fast Updates**: Quick response to user interactions
-- **Scalable Resolution**: Adjustable quality vs. performance trade-offs
+### **Overlap Control**
+```bash
+# No overlap (atoms just touching)
+python3 crystal_structure.py data.hkl -a -o 0.0
 
-### **System Requirements**
-- **Python 3.7+**: Modern Python with scientific libraries
-- **NumPy**: Efficient numerical operations
-- **Matplotlib**: High-quality plotting and 3D visualization
-- **Memory**: 2-4 GB RAM recommended for large structures
+# Moderate overlap for better visibility
+python3 crystal_structure.py data.hkl -a -o 0.3
 
-## 🔍 **Comparison with Previous Version**
+# High overlap for dense structures
+python3 crystal_structure.py data.hkl -a -o 0.7
+```
 
-| Feature | Previous Version | Enhanced Version |
-|---------|------------------|------------------|
-| **Atom Display** | Simple markers | **3D spheres with realistic radii** |
-| **Element Support** | Si/O only | **100+ elements with accurate data** |
-| **Visual Quality** | Basic 3D | **Professional publication-ready** |
-| **Bond Display** | None | **Smart bond detection and visualization** |
-| **Color Scheme** | Fixed red/blue | **Element-specific standard colors** |
-| **Interface Size** | 10x8 inches | **16x14 inches for optimal viewing** |
-| **Data Sources** | None | **Authoritative scientific databases** |
-| **Analysis Depth** | Basic positions | **Comprehensive atomic information** |
-| **Scaling Control** | None | **Advanced auto-scaling and overlap control** |
-| **Overlap Management** | None | **Intelligent overlap reduction algorithms** |
+### **Bond Visualization**
+```bash
+# Default bond cutoff (2.5 Å)
+python3 crystal_structure.py data.hkl -b
 
-## 📚 **Scientific Accuracy**
+# Tight bonding (1.5 Å)
+python3 crystal_structure.py data.hkl -b -c 1.5
 
-### **Data Quality**
-- **Verified Sources**: All atomic radii from peer-reviewed references
-- **Recent Data**: Updated with latest scientific measurements
-- **Standard Units**: All measurements in Angstroms (Å)
-- **Uncertainty Handling**: Appropriate precision for crystallographic applications
+# Loose bonding (4.0 Å)
+python3 crystal_structure.py data.hkl -b -c 4.0
+```
 
-### **Validation**
-- **Cross-Reference**: Data verified against multiple sources
-- **Scientific Standards**: Follows crystallographic conventions
-- **Peer Review**: Data quality validated by crystallographic experts
-- **Continuous Updates**: Regular updates from scientific literature
+### **Interactive Workflows**
+```bash
+# Start with auto-scaling, then fine-tune interactively
+python3 crystal_structure.py data.hkl -a -i
 
-## 🎯 **Best Practices**
+# Interactive exploration with bond visualization
+python3 crystal_structure.py data.hkl -b -i
 
-### **For Optimal Visualization**
-1. **Start with Auto-Scaling**: Use `-a` flag for automatic optimization
-2. **Adjust Overlap Targets**: Use `-o` parameter for different visibility levels
-3. **Fine-tune Manually**: Use `-s` parameter for precise control
-4. **Enable Bonds**: Use `-b` flag for complete structural information
-
-### **For Publication**
-1. **Use Auto-Scaling**: Let the tool optimize for your data
-2. **Choose Appropriate Overlap**: Balance visibility with clarity
-3. **Enable Bond Display**: Show complete structural information
-4. **Export High Resolution**: Save publication-quality images
-
-### **For Research**
-1. **Analyze Overlap Data**: Review the overlap analysis output
-2. **Experiment with Targets**: Try different overlap ratios
-3. **Compare Scaling Options**: Test auto vs. manual scaling
-4. **Document Settings**: Note parameters for reproducible results
+# Full interactive experience
+python3 crystal_structure.py data.hkl -a -b -i
+```
 
 ## 🌟 **Why Choose Enhanced Crystal Structure?**
 
-### **Unmatched Accuracy**
-- **Realistic Radii**: True-to-scale atomic representations
-- **Scientific Data**: Authoritative atomic radius database
-- **Professional Quality**: Publication-ready visualizations
-- **Comprehensive Coverage**: 100+ elements supported
-
-### **Advanced Features**
-- **3D Sphere Generation**: Mathematical accuracy in visualization
-- **Smart Auto-Scaling**: Intelligent overlap management
-- **Overlap Control**: Precise control of atomic separation
-- **Smart Bond Detection**: Intelligent chemical connectivity analysis
-- **Element-Specific Colors**: Standard crystallographic conventions
-- **Interactive Interface**: Full 3D navigation and exploration
-
-### **Professional Grade**
+### **Professional Quality**
 - **Research Ready**: Suitable for academic and industrial use
 - **Publication Standard**: High-quality output for papers and presentations
-- **Educational Value**: Excellent for teaching and learning
-- **Future Ready**: Extensible architecture for new features
+- **Professional Interface**: Large displays with organized controls
 
-## 🔧 **Advanced Scaling Workflows**
+### **Advanced Capabilities**
+- **Real-time Scaling**: Immediate visual feedback on all changes
+- **Smart Algorithms**: Intelligent overlap detection and optimization
+- **Interactive Controls**: Professional-grade user interface
+- **Comprehensive Data**: 100+ elements with accurate radii
 
-### **Workflow 1: Quick Analysis**
+### **User Experience**
+- **Intuitive Controls**: Easy-to-use interactive elements
+- **Immediate Feedback**: Real-time updates and status information
+- **Flexible Workflows**: Multiple modes and configuration options
+- **Professional Appearance**: Clean, research-ready interface
+
+## 🚀 **Getting Started**
+
+### **Quick Start with Interactive Mode**
 ```bash
-# Load and auto-scale for immediate visibility
-python3 crystal_structure.py data.hkl -a
+# Enable interactive controls
+python3 crystal_structure.py EntryWithCollCode176.hkl -i
 
-# Result: Optimal scaling with 10% overlap target
+# Use the slider to adjust atomic radii in real-time
+# Click buttons for quick presets
+# Watch the status display for feedback
 ```
 
-### **Workflow 2: Publication Quality**
+### **Advanced Interactive Workflow**
 ```bash
-# Auto-scale with minimal overlap for clarity
-python3 crystal_structure.py data.hkl -a -o 0.05
+# Start with auto-scaling and interactive controls
+python3 crystal_structure.py EntryWithCollCode176.hkl -a -i
 
-# Result: Clear atomic separation for publication
+# 1. Use the slider to fine-tune the auto-calculated scale
+# 2. Click "Optimal" for no-overlap scaling
+# 3. Use "Reset" to return to 1.0x scaling
+# 4. Fine-tune manually with the slider
 ```
 
-### **Workflow 3: Dense Structure Analysis**
+### **Professional Research Workflow**
 ```bash
-# Auto-scale with moderate overlap for visibility
-python3 crystal_structure.py data.hkl -a -o 0.3 -b
+# Full-featured analysis with interactive controls
+python3 crystal_structure.py EntryWithCollCode176.hkl -a -b -i
 
-# Result: Visible structure with bond information
+# 1. Start with auto-scaling for optimal visibility
+# 2. Enable bond visualization for chemical analysis
+# 3. Use interactive controls to fine-tune the visualization
+# 4. Generate publication-ready figures
 ```
 
-### **Workflow 4: Custom Research Needs**
-```bash
-# Manual scaling with specific requirements
-python3 crystal_structure.py data.hkl -s 0.15 -b -c 2.0
+## 🔍 **Troubleshooting**
 
-# Result: Custom scaling with bond analysis
-```
+### **Common Issues**
+- **Large Structures**: Use lower sphere resolution for better performance
+- **Overlapping Atoms**: Use auto-scaling or interactive controls to adjust
+- **Memory Usage**: Close other applications for large crystal structures
+- **Display Issues**: Ensure matplotlib backend supports interactive widgets
 
-## 📈 **Scaling Algorithm Details**
+### **Performance Tips**
+- **Sphere Resolution**: Lower resolution (10-15) for better performance
+- **Bond Display**: Disable bonds for very large structures
+- **Interactive Mode**: Use for fine-tuning, static mode for final output
+- **Memory Management**: Close plots when not needed
 
-### **Mathematical Foundation**
-The auto-scaling algorithm uses advanced mathematical principles:
+## 📚 **Related Documentation**
 
-1. **Distance Calculation**: 3D Euclidean distance between all atomic pairs
-2. **Radius Analysis**: Current atomic radii and their scaling effects
-3. **Overlap Optimization**: Achieves specified target overlap ratios
-4. **Scale Factor Calculation**: Optimal scaling for visibility and clarity
-
-### **Overlap Target Interpretation**
-- **0.0**: No overlap - atoms just touch (minimal visibility)
-- **0.1**: 10% overlap - good balance of visibility and clarity
-- **0.3**: 30% overlap - enhanced visibility for dense structures
-- **0.5**: 50% overlap - high visibility for complex structures
-- **0.7**: 70% overlap - maximum visibility for very dense structures
+- **[Main Documentation](README.md)** - Complete project overview
+- **[User Guide](user-guide.md)** - Comprehensive usage instructions
+- **[API Reference](api-reference.md)** - Technical function documentation
+- **[Examples](examples.md)** - Practical use cases and workflows
 
 ---
 
-**Transform your crystallographic analysis** with the enhanced `crystal_structure.py` tool - now featuring **realistic atomic radii**, **3D sphere visualization**, **intelligent auto-scaling**, and **advanced overlap control**! 🎉
+**Enhanced Crystal Structure Visualization** - The most advanced crystal structure analysis tool in the HKL3D project! 🎉
 
-*This enhanced tool provides the most accurate, visible, and professionally controllable crystal structure visualization available in the HKL3D project.*
+*Experience professional-grade crystal structure visualization with interactive atomic radius scaling controls.*

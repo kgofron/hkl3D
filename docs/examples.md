@@ -228,6 +228,81 @@ for file in files:
         analyze_reflections(file, h_range=(-3, 3), min_intensity=0.5)
 ```
 
+## Interactive Crystal Structure Examples
+
+### Basic Interactive Mode
+
+```bash
+# Enable interactive atomic radius scaling
+python3 crystal_structure.py EntryWithCollCode176.hkl -i
+
+# Interactive mode with auto-scaling
+python3 crystal_structure.py EntryWithCollCode176.hkl -a -i
+
+# Interactive mode with bonds
+python3 crystal_structure.py EntryWithCollCode176.hkl -b -i
+
+# Full interactive experience
+python3 crystal_structure.py EntryWithCollCode176.hkl -a -b -i
+```
+
+### Interactive Workflow Examples
+
+#### Research Analysis Workflow
+```bash
+# Step 1: Start with auto-scaling for optimal initial view
+python3 crystal_structure.py data.hkl -a -i
+
+# Use the interface:
+# 1. Observe the auto-calculated scale factor
+# 2. Use the slider to fine-tune the visualization
+# 3. Click "Optimal" for no-overlap scaling
+# 4. Use "Reset" to return to 1.0x scaling
+# 5. Monitor the Status box for real-time feedback
+```
+
+#### Educational Demonstration Workflow
+```bash
+# Step 1: Start with default scaling and bonds
+python3 crystal_structure.py data.hkl -b -i
+
+# Interactive demonstration:
+# 1. Show students the realistic atomic sizes (1.0x scale)
+# 2. Use slider to reduce scale for better visibility
+# 3. Explain chemical bonding with bond visualization
+# 4. Use "Auto-Scale" to show optimal scientific scaling
+```
+
+#### Publication Preparation Workflow
+```bash
+# Step 1: Start with comprehensive analysis
+python3 crystal_structure.py data.hkl -a -b -i
+
+# Publication workflow:
+# 1. Use auto-scaling for scientifically accurate proportions
+# 2. Fine-tune with slider for optimal visibility
+# 3. Enable bonds for complete structural information
+# 4. Use Status box to document exact scale factor used
+# 5. Take screenshots at optimal scaling for publication
+```
+
+### Interactive Controls Reference
+
+#### Scale Slider
+- **Range**: 0.01x to 1.0x atomic radii
+- **Use**: Primary control for real-time scaling adjustment
+- **Tip**: Start with auto-scaling, then fine-tune with slider
+
+#### Control Buttons
+- **Reset**: Return to 1.0x scaling (realistic atomic sizes)
+- **Auto-Scale**: Apply calculated optimal scaling for visibility
+- **Optimal**: Calculate no-overlap scaling for maximum clarity
+
+#### Information Display
+- **Scale Factor Box**: Shows current scaling and distance information
+- **Status Box**: Provides real-time feedback on operations
+- **Legend**: Updates automatically with scaled atomic radii
+
 ## Integration Examples
 
 ### Custom Analysis Dashboard

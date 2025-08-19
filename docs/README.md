@@ -53,6 +53,7 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 - **Overlap Control**: Configurable target overlap ratios (0.0 = no overlap, 1.0 = full overlap)
 - **Element-Specific Colors**: Standard crystallographic color conventions
 - **Advanced Bond Visualization**: Smart chemical bond detection and display
+- **Interactive Controls** ⭐ **NEW**: Real-time atomic radius scaling with sliders and buttons
 
 ### **Key Improvements**
 - **Unified Interface**: Single tool for both crystal structure and reflection analysis
@@ -94,6 +95,7 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 - **Overlap Control**: Configurable target overlap ratios for different visualization needs
 - **Element-Specific Colors**: Standard crystallographic color conventions
 - **Advanced Bond Detection**: Intelligent chemical connectivity analysis
+- **Interactive Scaling Controls** ⭐ **NEW**: Real-time atomic radius adjustment with professional interface
 
 ### **Reciprocal Space Visualization**
 - **3D HKL Plots**: Interactive reflection space exploration
@@ -128,7 +130,8 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 - **Auto-Scaling**: Intelligent optimization of atomic radii for visibility
 - **Bond Detection**: Automatic identification of chemical bonds
 - **Distance Analysis**: 3D Euclidean distance calculations between atoms
-- **Radius Optimization**: Precise control of atomic sphere sizes
+- **Radius Optimization**: Precise control of atomic sphere sizes (0.01x to 1.0x)
+- **Interactive Controls** ⭐ **NEW**: Real-time scaling adjustment with professional interface
 
 ### **Data Export and Reporting**
 - **High-resolution Screenshots**: Save publication-quality images
@@ -166,6 +169,12 @@ python3 crystal_structure.py data.hkl -a -o 0.3
 
 # Show chemical bonds with auto-scaling
 python3 crystal_structure.py data.hkl -a -b
+
+# Interactive atomic radius scaling controls
+python3 crystal_structure.py data.hkl -i
+
+# Full interactive experience with auto-scaling and bonds
+python3 crystal_structure.py data.hkl -a -b -i
 ```
 
 ### **Enhanced Workflow**
