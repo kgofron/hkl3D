@@ -19,7 +19,12 @@ Reads crystal structure data from HKL file.
 - `filename` (str): Path to the HKL file
 
 **Returns:**
-- `list`: List of dictionaries containing atom information
+- `atoms`: List of dictionaries containing atom information
+- `lattice_params`: Dictionary containing lattice parameters (a, b, c, alpha, beta, gamma)
+
+**Lattice Parameters:**
+- `a`, `b`, `c`: Unit cell lengths in Angstroms
+- `alpha`, `beta`, `gamma`: Unit cell angles in degrees
 
 **Atom Data Structure:**
 ```python
@@ -37,7 +42,8 @@ Reads crystal structure data from HKL file.
 
 **Example:**
 ```python
-atoms = read_crystal_structure('EntryWithCollCode176.hkl')
+atoms, lattice_params = read_crystal_structure('EntryWithCollCode176.hkl')
+print(f"Lattice: a={lattice_params['a']:.3f}Å, β={lattice_params['beta']:.2f}°")
 for atom in atoms:
     print(f"{atom['name']}: ({atom['x']:.3f}, {atom['y']:.3f}, {atom['z']:.3f})")
 ```
@@ -66,22 +72,49 @@ for h, k, l, intensity in reflections:
     print(f"HKL({h},{k},{l}): {intensity:.2e}")
 ```
 
-##### `plot_atoms(atoms)`
-Creates a 3D plot of the crystal structure.
+##### `plot_atoms(atoms, lattice_params)`
+Creates a 3D plot of the crystal structure in real space coordinates.
 
 **Parameters:**
 - `atoms` (list): List of atom dictionaries from `read_crystal_structure()`
+- `lattice_params` (dict): Lattice parameters dictionary from `read_crystal_structure()`
 
 **Features:**
-- Different markers for Si (red squares) and O (blue circles) atoms
-- Interactive 3D navigation
-- Equal aspect ratio for proper crystallographic proportions
-- Professional layout suitable for publications
+- **Real Space Coordinates**: Plots atoms in true Angstrom coordinates using lattice parameters
+- **Lattice Integration**: Automatically reads a, b, c, α, β, γ from .hkl files
+- **Accurate Crystallography**: Proper coordinate transformation for non-orthogonal systems
+- **3D Sphere Visualization**: True 3D spheres with realistic atomic radii
+- **Interactive 3D Navigation**: Rotation, zoom, and pan controls
+- **Equal Aspect Ratio**: Maintains spherical appearance of atoms
+- **Professional Layout**: Publication-ready visualizations
 
 **Example:**
 ```python
-atoms = read_crystal_structure('structure.hkl')
-plot_atoms(atoms)
+atoms, lattice_params = read_crystal_structure('structure.hkl')
+plot_atoms(atoms, lattice_params)
+```
+
+##### `convert_fractional_to_real(fractional_coords, lattice_params)`
+Converts fractional coordinates to real space coordinates using lattice parameters.
+
+**Parameters:**
+- `fractional_coords` (tuple): (x, y, z) fractional coordinates
+- `lattice_params` (dict): Dictionary with a, b, c, alpha, beta, gamma
+
+**Returns:**
+- `tuple`: (x, y, z) real space coordinates in Angstroms
+
+**Mathematical Basis:**
+- Implements complete crystallographic coordinate transformation
+- Handles non-orthogonal unit cells (α ≠ β ≠ γ ≠ 90°)
+- Calculates unit cell volume and reciprocal lattice parameters
+- Applies proper transformation matrices for accurate conversion
+
+**Example:**
+```python
+atoms, lattice_params = read_crystal_structure('data.hkl')
+real_coords = convert_fractional_to_real((0.5, 0.5, 0.5), lattice_params)
+print(f"Real space: {real_coords[0]:.3f}, {real_coords[1]:.3f}, {real_coords[2]:.3f} Å")
 ```
 
 ##### `plot_reflections(hkl_data, initial_size=50)`

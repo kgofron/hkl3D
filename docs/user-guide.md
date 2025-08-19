@@ -42,6 +42,10 @@ python3 crystal3D.py -m atoms -a -b -i filename.hkl
 - **Element-Specific Colors**: Standard crystallographic color conventions
 - **Professional Layout**: 18x14 inch display with organized controls
 - **Overlap Control**: Configurable target overlap ratios (0.0 = no overlap, 1.0 = full overlap)
+- **Lattice Parameter Integration**: Automatic reading of a, b, c, α, β, γ from .hkl files
+- **Real Space Coordinates**: Plots atoms in true Angstrom coordinates instead of fractional
+- **Accurate Crystallography**: Proper coordinate transformation for non-orthogonal systems
+- **Spherical Appearance**: Maintains perfect sphere shapes through equal axis scaling
 
 #### Advanced Parameters
 - `-i, --interactive`: Enable interactive atomic radius scaling controls
@@ -51,6 +55,13 @@ python3 crystal3D.py -m atoms -a -b -i filename.hkl
 - `-c, --cutoff`: Bond cutoff distance in Angstroms
 - `--scale`: Manual scale factor for atomic radii
 - `--no-overlap-info`: Hide overlap analysis information
+
+#### Lattice Parameter Features
+- **Automatic Detection**: Reads lattice parameters from `# CELL` line in .hkl files
+- **Real Space Conversion**: Converts fractional coordinates to Angstrom coordinates
+- **Non-Orthogonal Support**: Handles triclinic, monoclinic, and orthorhombic systems
+- **Accurate Distances**: Bond detection and overlap analysis use real space distances
+- **Professional Output**: Displays both fractional and real space coordinates
 
 ## Enhanced Reciprocal Space Visualization
 

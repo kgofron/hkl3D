@@ -254,7 +254,7 @@ python3 crystal_structure.py EntryWithCollCode176.hkl -i
 ### Enhanced Crystal Structure Mode
 
 ```bash
-# Basic enhanced visualization
+# Basic enhanced visualization with lattice parameters
 python3 crystal3D.py data.hkl -m atoms
 
 # Interactive atomic radius scaling
@@ -273,6 +273,22 @@ python3 crystal3D.py data.hkl -m atoms -b -i
 python3 crystal3D.py data.hkl -m atoms -a -b -i
 ```
 
+### Legacy Tool with Lattice Parameters
+
+```bash
+# Enhanced crystal structure with automatic lattice parameter reading
+python3 crystal_structure.py data.hkl
+
+# Auto-scaling using real space coordinates
+python3 crystal_structure.py data.hkl -a
+
+# Interactive mode with lattice-aware scaling
+python3 crystal_structure.py data.hkl -a -i
+
+# Show bonds using real space distances
+python3 crystal_structure.py data.hkl -b -i
+```
+
 ### Enhanced Reflections Mode
 
 ```bash
@@ -284,6 +300,28 @@ python3 crystal3D.py data.hkl -m reflections -s 100
 
 # Large size for visibility
 python3 crystal3D.py data.hkl -m reflections -s 500
+```
+
+### Lattice Parameter Examples
+
+#### Automatic Lattice Parameter Reading
+```bash
+# The program automatically reads lattice parameters from .hkl files
+python3 crystal_structure.py EntryWithCollCode176.hkl
+
+# Output shows:
+# Lattice parameters: a=18.494, b=4.991, c=25.832
+# Angles: α=90.00°, β=117.75°, γ=90.00°
+```
+
+#### Real Space Coordinate Conversion
+```bash
+# Atoms are plotted in real space coordinates (Å) instead of fractional
+python3 crystal_structure.py data.hkl -a
+
+# The analysis shows both coordinate systems:
+# Fractional: (0.020000, 0.189600, 0.038000)
+# Real Space: (-0.09, 0.95, 0.87) Å
 ```
 
 ### Interactive Workflow Examples

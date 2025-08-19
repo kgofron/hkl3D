@@ -96,6 +96,63 @@ export MPLBACKEND=GTK3Agg   # GTK backend
 export MPLBACKEND=WXAgg     # WX backend
 ```
 
+### Lattice Parameter Issues
+
+#### Issue: Lattice parameters not found in .hkl file
+
+**Symptoms:**
+- Warning message: "No lattice parameters found in file. Using default values."
+- Incorrect coordinate conversion
+- Wrong real space distances
+
+**Possible Causes:**
+1. **Missing CELL line**: .hkl file doesn't contain `# CELL` information
+2. **Wrong file format**: File is not in expected HKL format
+3. **Corrupted data**: CELL line is malformed
+
+**Solutions:**
+
+**Solution 1: Check .hkl file format**
+```bash
+# Look for this line in your .hkl file:
+# CELL   18.49400   4.99100  25.83200  90.00000 117.75000  90.00000
+
+# If missing, the file may not be a proper crystallographic HKL file
+```
+
+**Solution 2: Verify file structure**
+```bash
+# Check if file contains crystallographic data
+head -20 your_file.hkl
+
+# Should contain:
+# - TITLE line
+# - CELL line with 6 parameters
+# - SPCGRP line
+# - Atom data section
+```
+
+**Solution 3: Use alternative file**
+```bash
+# Try with a different .hkl file that has lattice parameters
+python3 crystal_structure.py EntryWithCollCode176.hkl
+```
+
+#### Issue: Spheres appear as ellipses or distorted
+
+**Symptoms:**
+- Atomic spheres look flattened or stretched
+- Non-spherical appearance in 3D view
+- Inconsistent scaling across axes
+
+**Cause**: Unequal axis scaling in 3D plots
+
+**Solution**: The program now automatically:
+- Sets equal aspect ratios (`ax.set_box_aspect([1, 1, 1])`)
+- Calculates proper view limits for equal scaling
+- Centers the plot to maintain spherical appearance
+- Uses higher resolution sphere generation (25 points vs 15)
+
 ### File Reading Problems
 
 #### Issue 3: "File Not Found" Error

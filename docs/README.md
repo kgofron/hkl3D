@@ -36,6 +36,9 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 - **Element-Specific Colors**: Standard crystallographic color conventions
 - **Professional Layout**: 18x14 inch display with organized controls
 - **Overlap Control**: Configurable target overlap ratios (0.0 = no overlap, 1.0 = full overlap)
+- **Lattice Parameter Integration**: Automatic reading and use of a, b, c, α, β, γ from .hkl files
+- **Real Space Coordinates**: Plots atoms in true Angstrom coordinates instead of fractional
+- **Accurate Crystallography**: Proper coordinate transformation for non-orthogonal systems
 
 #### **2. Enhanced Reflections Mode** (`-m reflections`) ⭐ **MAJOR UPDATE**
 - **Advanced HKL Range Controls**: Independent H, K, L min/max sliders
@@ -84,6 +87,8 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 | **Auto-Scaling** | ✅ **Intelligent** | ✅ **Intelligent** | ❌ None |
 | **Interactive Scaling** | ✅ **Real-time** | ✅ **Real-time** | ❌ None |
 | **Bond Visualization** | ✅ **Chemical** | ✅ **Chemical** | ❌ None |
+| **Lattice Parameters** | ✅ **Automatic** | ✅ **Automatic** | ❌ None |
+| **Real Space Coordinates** | ✅ **Accurate** | ✅ **Accurate** | ❌ None |
 
 ## 🎨 **Visualization Capabilities**
 

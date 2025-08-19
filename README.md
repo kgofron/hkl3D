@@ -24,14 +24,31 @@ Added radjustment of hkl space size, minimum intensity, size factor (reflection 
 
 #### Real space
 
-* Plot real space crystal structure
-	* ./crystal_structure.py
+* Plot real space crystal structure with **lattice parameter integration**
+	* ./crystal_structure.py EntryWithCollCode176.hkl
+	* **NEW**: Automatically reads a, b, c, α, β, γ from .hkl files
+	* **NEW**: Converts fractional coordinates to real space coordinates (Å)
+	* **NEW**: Plots atoms in true crystallographic dimensions
 * Dependencies
 	* pip install numpy matplotlib
 
 * Combined function
 	* ./crystal3d.py -m reflections EntryWithCollCode176.hkl
 	* ./crystal3d.py -m atoms EntryWithCollCode176.hkl
+
+## 🆕 **Latest Enhancements**
+
+### **Lattice Parameter Integration** ⭐ **NEW**
+* **Automatic Detection**: Reads lattice parameters from `# CELL` line in .hkl files
+* **Real Space Conversion**: Converts fractional coordinates to Angstrom coordinates
+* **Accurate Crystallography**: Proper coordinate transformation for non-orthogonal systems
+* **Spherical Appearance**: Maintains perfect sphere shapes through equal axis scaling
+
+### **Enhanced Crystal Structure Visualization**
+* **3D Sphere Rendering**: True 3D spheres with realistic atomic radii
+* **Interactive Controls**: Real-time atomic radius scaling (0.01x to 1.0x)
+* **Smart Auto-Scaling**: Intelligent overlap reduction for optimal visibility
+* **Chemical Bond Display**: Shows chemical connectivity using real space distances
 
 ## 📚 Documentation
 
