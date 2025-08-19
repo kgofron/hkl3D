@@ -14,19 +14,43 @@ The HKL3D project provides tools for visualizing and analyzing crystallographic 
 
 ## Crystal Structure Visualization
 
-### Basic Usage
+### Enhanced Crystal Structure Mode ⭐ **MAJOR UPDATE**
+
+The crystal structure visualization has been **completely enhanced** with realistic atomic radii, 3D sphere rendering, and interactive controls.
+
+#### Basic Usage
 
 ```bash
+# Enhanced crystal structure visualization
 python3 crystal3D.py -m atoms filename.hkl
+
+# Interactive atomic radius scaling
+python3 crystal3D.py -m atoms -i filename.hkl
+
+# Auto-scaling for optimal visibility
+python3 crystal3D.py -m atoms -a filename.hkl
+
+# Full enhanced experience
+python3 crystal3D.py -m atoms -a -b -i filename.hkl
 ```
 
-This mode displays the atomic structure of the crystal in 3D space using fractional coordinates.
+#### Enhanced Features
+- **3D Sphere Visualization**: True 3D spheres with realistic atomic radii (100+ elements)
+- **Smart Auto-Scaling**: Intelligent overlap reduction for optimal visibility
+- **Interactive Controls**: Real-time atomic radius scaling (0.01x to 1.0x)
+- **Advanced Bond Visualization**: Chemical connectivity analysis and display
+- **Element-Specific Colors**: Standard crystallographic color conventions
+- **Professional Layout**: 18x14 inch display with organized controls
+- **Overlap Control**: Configurable target overlap ratios (0.0 = no overlap, 1.0 = full overlap)
 
-### Features
-- **Atom Type Differentiation**: Si atoms (red squares) and O atoms (blue circles)
-- **3D Navigation**: Interactive 3D plot with rotation, zoom, and pan
-- **Equal Aspect Ratio**: Maintains proper crystallographic proportions
-- **Professional Layout**: Clean, publication-ready visualizations
+#### Advanced Parameters
+- `-i, --interactive`: Enable interactive atomic radius scaling controls
+- `-a, --auto-scale`: Automatically calculate optimal scale factor
+- `-o, --overlap`: Target overlap ratio for auto-scaling (0.0-1.0)
+- `-b, --bonds`: Show chemical bonds between atoms
+- `-c, --cutoff`: Bond cutoff distance in Angstroms
+- `--scale`: Manual scale factor for atomic radii
+- `--no-overlap-info`: Hide overlap analysis information
 
 ## Enhanced Reciprocal Space Visualization
 

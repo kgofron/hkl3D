@@ -25,14 +25,17 @@ This documentation covers all aspects of the enhanced HKL3D toolkit:
 
 ## 🎯 **Enhanced Features Overview**
 
-### **Unified Crystal3D Tool** ⭐ **NEW**
-The `crystal3D.py` script now provides **two powerful modes** in a single, professional interface:
+### **Unified Crystal3D Tool** ⭐ **COMPLETELY ENHANCED**
+The `crystal3D.py` script now provides **two powerful modes** in a single, professional interface with **full enhanced features**:
 
-#### **1. Crystal Structure Mode** (`-m atoms`)
-- **3D Atomic Visualization**: Interactive display of atomic positions
-- **Atom Type Differentiation**: Si atoms (red squares) and O atoms (blue circles)
-- **Professional Layout**: Publication-ready visualizations with proper crystallographic proportions
-- **Interactive Navigation**: 3D rotation, zoom, and pan controls
+#### **1. Enhanced Crystal Structure Mode** (`-m atoms`) ⭐ **MAJOR UPDATE**
+- **3D Sphere Visualization**: True 3D spheres with realistic atomic radii (100+ elements)
+- **Smart Auto-Scaling**: Intelligent overlap reduction for optimal visibility
+- **Interactive Controls**: Real-time atomic radius scaling (0.01x to 1.0x)
+- **Advanced Bond Visualization**: Chemical connectivity analysis and display
+- **Element-Specific Colors**: Standard crystallographic color conventions
+- **Professional Layout**: 18x14 inch display with organized controls
+- **Overlap Control**: Configurable target overlap ratios (0.0 = no overlap, 1.0 = full overlap)
 
 #### **2. Enhanced Reflections Mode** (`-m reflections`) ⭐ **MAJOR UPDATE**
 - **Advanced HKL Range Controls**: Independent H, K, L min/max sliders
@@ -67,18 +70,20 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 
 | Feature | crystal3D.py | crystal_structure.py | Legacy Tools |
 |---------|--------------|---------------------|--------------|
-| **Crystal Structure** | ✅ Enhanced Mode | ✅ **Enhanced Mode** | ✅ Basic Mode |
+| **Crystal Structure** | ✅ **FULLY ENHANCED** | ✅ **Enhanced Mode** | ✅ Basic Mode |
 | **HKL Reflections** | ✅ **Enhanced Mode** | ❌ Not Available | ✅ Basic Mode |
 | **HKL Range Controls** | ✅ **Advanced** | ❌ Not Available | ✅ Basic |
 | **Intensity Filtering** | ✅ **Real-time** | ❌ Not Available | ✅ Basic |
 | **Size Controls** | ✅ **Professional** | ❌ Not Available | ✅ Basic |
-| **Interface Quality** | ✅ **16x14" Display** | ✅ **16x14" Display** | ✅ Standard |
+| **Interface Quality** | ✅ **18x14" Display** | ✅ **16x14" Display** | ✅ Standard |
 | **View Management** | ✅ **Toggle & Reset** | ❌ Not Available | ✅ Basic |
 | **Status Display** | ✅ **Real-time** | ❌ Not Available | ❌ None |
 | **Memory Management** | ✅ **Smart** | ✅ **Smart** | ❌ Basic |
-| **Atomic Radii** | ❌ Basic | ✅ **100+ Elements** | ❌ None |
-| **3D Spheres** | ❌ Basic | ✅ **Mathematical** | ❌ None |
-| **Auto-Scaling** | ❌ None | ✅ **Intelligent** | ❌ None |
+| **Atomic Radii** | ✅ **100+ Elements** | ✅ **100+ Elements** | ❌ None |
+| **3D Spheres** | ✅ **Mathematical** | ✅ **Mathematical** | ❌ None |
+| **Auto-Scaling** | ✅ **Intelligent** | ✅ **Intelligent** | ❌ None |
+| **Interactive Scaling** | ✅ **Real-time** | ✅ **Real-time** | ❌ None |
+| **Bond Visualization** | ✅ **Chemical** | ✅ **Chemical** | ❌ None |
 
 ## 🎨 **Visualization Capabilities**
 
@@ -143,16 +148,19 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 
 ### **Quick Start**
 ```bash
-# View crystal structure with enhanced features
-python3 crystal_structure.py EntryWithCollCode176.hkl -a
+# Enhanced crystal structure visualization (unified tool)
+python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -a -i
 
 # View reflections with enhanced controls
 python3 crystal3D.py -m reflections EntryWithCollCode55782.hkl
 
-# View crystal structure (atoms mode)
-python3 crystal3D.py -m atoms EntryWithCollCode176.hkl
+# Interactive crystal structure with bonds
+python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -b -i
 
-# Custom size factor
+# Full enhanced experience
+python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -a -b -i
+
+# Custom size factor for reflections
 python3 crystal3D.py -m reflections -s 100 EntryWithCollCode55782.hkl
 ```
 

@@ -233,17 +233,57 @@ for file in files:
 ### Basic Interactive Mode
 
 ```bash
-# Enable interactive atomic radius scaling
-python3 crystal_structure.py EntryWithCollCode176.hkl -i
+# Enable interactive atomic radius scaling (unified tool)
+python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -i
 
 # Interactive mode with auto-scaling
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -i
+python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -a -i
 
 # Interactive mode with bonds
-python3 crystal_structure.py EntryWithCollCode176.hkl -b -i
+python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -b -i
 
 # Full interactive experience
-python3 crystal_structure.py EntryWithCollCode176.hkl -a -b -i
+python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -a -b -i
+
+# Legacy tool (still available)
+python3 crystal_structure.py EntryWithCollCode176.hkl -i
+```
+
+## Unified Crystal3D Tool Examples
+
+### Enhanced Crystal Structure Mode
+
+```bash
+# Basic enhanced visualization
+python3 crystal3D.py data.hkl -m atoms
+
+# Interactive atomic radius scaling
+python3 crystal3D.py data.hkl -m atoms -i
+
+# Auto-scaling for optimal visibility
+python3 crystal3D.py data.hkl -m atoms -a
+
+# Interactive mode with auto-scaling
+python3 crystal3D.py data.hkl -m atoms -a -i
+
+# Show chemical bonds with interactive controls
+python3 crystal3D.py data.hkl -m atoms -b -i
+
+# Full enhanced experience
+python3 crystal3D.py data.hkl -m atoms -a -b -i
+```
+
+### Enhanced Reflections Mode
+
+```bash
+# Basic reflection visualization
+python3 crystal3D.py data.hkl -m reflections
+
+# Custom size factor
+python3 crystal3D.py data.hkl -m reflections -s 100
+
+# Large size for visibility
+python3 crystal3D.py data.hkl -m reflections -s 500
 ```
 
 ### Interactive Workflow Examples
@@ -251,7 +291,7 @@ python3 crystal_structure.py EntryWithCollCode176.hkl -a -b -i
 #### Research Analysis Workflow
 ```bash
 # Step 1: Start with auto-scaling for optimal initial view
-python3 crystal_structure.py data.hkl -a -i
+python3 crystal3D.py data.hkl -m atoms -a -i
 
 # Use the interface:
 # 1. Observe the auto-calculated scale factor

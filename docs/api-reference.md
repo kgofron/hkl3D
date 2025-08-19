@@ -197,10 +197,34 @@ Module for HKL reflection visualization (legacy, now integrated into crystal3D.p
 #### Main Functions
 
 ##### `read_hkl_reflections(filename)`
-Reads HKL reflection data (same as in crystal3D.py).
+Reads HKL reflection data from HKL file.
 
-##### `plot_crystal_structure(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5, auto_scale=False, target_overlap=0.1, show_overlap_info=True, interactive=False)`
+##### `read_crystal_structure(filename)`
+Reads crystal structure data from HKL file.
+
+##### `plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5, auto_scale=False, target_overlap=0.1, show_overlap_info=True, interactive=False)`
 Creates enhanced 3D plot of crystal structure with atomic radii and interactive controls.
+
+**Parameters:**
+- `atoms` (list): List of atom dictionaries with position and element information
+- `scale_factor` (float): Multiplier for atomic radii (default: 1.0)
+- `show_bonds` (bool): Whether to show chemical bonds (default: False)
+- `bond_cutoff` (float): Maximum distance for bond detection in Angstroms (default: 2.5)
+- `auto_scale` (bool): Whether to automatically calculate optimal scale factor (default: False)
+- `target_overlap` (float): Target overlap ratio for auto-scaling (0.0-1.0, default: 0.1)
+- `show_overlap_info` (bool): Whether to display overlap analysis information (default: True)
+- `interactive` (bool): Whether to add interactive scaling controls (default: False)
+
+**Features:**
+- **3D Sphere Visualization**: True 3D spheres with realistic atomic radii
+- **Smart Auto-Scaling**: Intelligent overlap reduction for optimal visibility
+- **Interactive Controls**: Real-time atomic radius scaling with sliders and buttons
+- **Professional Layout**: Organized interface with aligned information boxes and controls
+- **Bond Visualization**: Chemical connectivity analysis and display
+- **Element-Specific Colors**: Standard crystallographic color conventions
+
+##### `plot_reflections(hkl_data, initial_size=50)`
+Creates enhanced 3D plot of crystal reflections with comprehensive interactive controls.
 
 **Parameters:**
 - `atoms` (list): List of atom dictionaries with position and element information
