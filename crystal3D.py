@@ -104,6 +104,47 @@ def get_element_color(element_symbol):
     else:
         return '#808080'  # Default gray color
 
+def convert_fractional_to_real(fractional_coords, lattice_params):
+    """
+    Convert fractional coordinates to real space coordinates using lattice parameters.
+    
+    Parameters:
+    - fractional_coords: tuple of (x, y, z) fractional coordinates
+    - lattice_params: dictionary with a, b, c, alpha, beta, gamma
+    
+    Returns:
+    - real_coords: tuple of (x, y, z) real space coordinates in Angstroms
+    """
+    x_frac, y_frac, z_frac = fractional_coords
+    a, b, c = lattice_params['a'], lattice_params['b'], lattice_params['c']
+    alpha, beta, gamma = lattice_params['alpha'], lattice_params['beta'], lattice_params['gamma']
+    
+    # Convert angles to radians
+    alpha_rad = math.radians(alpha)
+    beta_rad = math.radians(beta)
+    gamma_rad = math.radians(gamma)
+    
+    # Calculate volume of unit cell
+    V = a * b * c * math.sqrt(1 - math.cos(alpha_rad)**2 - math.cos(beta_rad)**2 - math.cos(gamma_rad)**2 + 
+                                2 * math.cos(alpha_rad) * math.cos(beta_rad) * math.cos(gamma_rad))
+    
+    # Calculate reciprocal lattice parameters
+    a_star = b * c * math.sin(alpha_rad) / V
+    b_star = a * c * math.sin(beta_rad) / V
+    c_star = a * b * math.sin(gamma_rad) / V
+    
+    # Calculate cosines of reciprocal angles
+    cos_alpha_star = (math.cos(beta_rad) * math.cos(gamma_rad) - math.cos(alpha_rad)) / (math.sin(beta_rad) * math.sin(gamma_rad))
+    cos_beta_star = (math.cos(alpha_rad) * math.cos(gamma_rad) - math.cos(beta_rad)) / (math.sin(alpha_rad) * math.sin(gamma_rad))
+    cos_gamma_star = (math.cos(alpha_rad) * math.cos(beta_rad) - math.cos(gamma_rad)) / (math.sin(alpha_rad) * math.sin(beta_rad))
+    
+    # Convert fractional to real coordinates
+    x_real = a * x_frac + b * math.cos(gamma_rad) * y_frac + c * math.cos(beta_rad) * z_frac
+    y_real = b * math.sin(gamma_rad) * y_frac + c * (math.cos(alpha_rad) - math.cos(beta_rad) * math.cos(gamma_rad)) / math.sin(gamma_rad) * z_frac
+    z_real = c * math.sin(beta_rad) * z_frac
+    
+    return (x_real, y_real, z_real)
+
 def create_sphere(center, radius, resolution=20):
     """
     Create a 3D sphere using triangulation.
@@ -144,20 +185,25 @@ def create_sphere(center, radius, resolution=20):
     
     return vertices, faces
 
-def calculate_optimal_scale_factor(atoms, target_overlap=0.1):
+def calculate_optimal_scale_factor(atoms, lattice_params, target_overlap=0.1):
     """
-    Calculate optimal scale factor to achieve target overlap ratio.
+    Calculate optimal scale factor to achieve target overlap ratio using real space coordinates.
     """
     if len(atoms) < 2:
         return 1.0, {}
     
-    # Find minimum interatomic distance
+    # Find minimum interatomic distance in real space
     min_distance = float('inf')
     for i, atom1 in enumerate(atoms):
         for j, atom2 in enumerate(atoms[i+1:], i+1):
-            dx = atom1['x'] - atom2['x']
-            dy = atom1['y'] - atom2['y']
-            dz = atom1['z'] - atom2['z']
+            # Convert fractional coordinates to real space
+            real1 = convert_fractional_to_real((atom1['x'], atom1['y'], atom1['z']), lattice_params)
+            real2 = convert_fractional_to_real((atom2['x'], atom2['y'], atom2['z']), lattice_params)
+            
+            # Calculate real space distance
+            dx = real1[0] - real2[0]
+            dy = real1[1] - real2[1]
+            dz = real1[2] - real2[2]
             distance = math.sqrt(dx*dx + dy*dy + dz*dz)
             min_distance = min(min_distance, distance)
     
@@ -204,9 +250,12 @@ def calculate_optimal_scale_factor(atoms, target_overlap=0.1):
 def read_crystal_structure(filename):
     """
     Read crystal structure data from HKL file.
-    Returns a list of dictionaries containing atom information.
+    Returns a tuple of (atoms, lattice_params) where:
+    - atoms: list of dictionaries containing atom information
+    - lattice_params: dictionary with a, b, c, alpha, beta, gamma
     """
     atoms = []
+    lattice_params = {}
     reading_atoms = False
     
     with open(filename, 'r') as f:
@@ -215,6 +264,22 @@ def read_crystal_structure(filename):
             
             # Skip empty lines
             if not line:
+                continue
+            
+            # Parse lattice parameters from CELL line
+            if line.startswith('# CELL'):
+                parts = line.split()
+                if len(parts) >= 7:
+                    lattice_params = {
+                        'a': float(parts[2]),
+                        'b': float(parts[3]),
+                        'c': float(parts[4]),
+                        'alpha': float(parts[5]),
+                        'beta': float(parts[6]),
+                        'gamma': float(parts[7])
+                    }
+                    print(f"Lattice parameters: a={lattice_params['a']:.3f}, b={lattice_params['b']:.3f}, c={lattice_params['c']:.3f}")
+                    print(f"Angles: α={lattice_params['alpha']:.2f}°, β={lattice_params['beta']:.2f}°, γ={lattice_params['gamma']:.2f}°")
                 continue
                 
             # Check if we've reached the atom data section
@@ -238,7 +303,11 @@ def read_crystal_structure(filename):
                     }
                     atoms.append(atom_data)
     
-    return atoms
+    if not lattice_params:
+        print("Warning: No lattice parameters found in file. Using default values.")
+        lattice_params = {'a': 1.0, 'b': 1.0, 'c': 1.0, 'alpha': 90.0, 'beta': 90.0, 'gamma': 90.0}
+    
+    return atoms, lattice_params
 
 def read_hkl_reflections(filename):
     """
@@ -263,7 +332,7 @@ def read_hkl_reflections(filename):
     
     return hkl_data
 
-def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5, 
+def plot_atoms(atoms, lattice_params, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5, 
                auto_scale=False, target_overlap=0.1, show_overlap_info=True,
                interactive=False):
     """
@@ -271,6 +340,7 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
     
     Parameters:
     - atoms: List of atom dictionaries
+    - lattice_params: Dictionary with lattice parameters (a, b, c, alpha, beta, gamma)
     - scale_factor: Multiplier for atomic radii (default: 1.0)
     - show_bonds: Whether to show bonds between atoms (default: False)
     - bond_cutoff: Maximum distance for bond display in Angstroms (default: 2.5)
@@ -281,7 +351,7 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
     """
     # Auto-scale if requested
     if auto_scale:
-        optimal_scale, overlap_analysis = calculate_optimal_scale_factor(atoms, target_overlap)
+        optimal_scale, overlap_analysis = calculate_optimal_scale_factor(atoms, lattice_params, target_overlap)
         if show_overlap_info:
             print(f"\nOverlap Analysis:")
             print(f"  Minimum interatomic distance: {overlap_analysis['min_distance']:.3f} Å")
@@ -335,12 +405,14 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
             
             # Create spheres for all atoms of this element
             for atom in element_atoms:
-                center = (atom['x'], atom['y'], atom['z'])
-                vertices, faces = create_sphere(center, radius, resolution=15)
+                # Convert fractional coordinates to real space
+                real_center = convert_fractional_to_real((atom['x'], atom['y'], atom['z']), lattice_params)
+                # Use higher resolution for smoother spheres
+                vertices, faces = create_sphere(real_center, radius, resolution=25)
                 
                 # Create 3D polygon collection for the sphere
                 sphere = Poly3DCollection([vertices[face] for face in faces], 
-                                        alpha=0.8, facecolor=color, edgecolor='black', linewidth=0.5)
+                                        alpha=0.8, facecolor=color, edgecolor='black', linewidth=0.3)
                 ax.add_collection3d(sphere)
                 all_spheres.append(sphere)
             
@@ -354,10 +426,14 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
             bond_lines = []
             for i, atom1 in enumerate(original_atoms):
                 for j, atom2 in enumerate(original_atoms[i+1:], i+1):
-                    # Calculate distance
-                    dx = atom1['x'] - atom2['x']
-                    dy = atom1['y'] - atom2['y']
-                    dz = atom1['z'] - atom2['z']
+                    # Convert fractional coordinates to real space
+                    real1 = convert_fractional_to_real((atom1['x'], atom1['y'], atom1['z']), lattice_params)
+                    real2 = convert_fractional_to_real((atom2['x'], atom2['y'], atom2['z']), lattice_params)
+                    
+                    # Calculate real space distance
+                    dx = real1[0] - real2[0]
+                    dy = real1[1] - real2[1]
+                    dz = real1[2] - real2[2]
                     distance = math.sqrt(dx*dx + dy*dy + dz*dz)
                     
                     # Check if atoms are close enough to form a bond
@@ -368,8 +444,7 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
                         
                         # Check if atoms are actually touching (within 20% of sum of radii)
                         if distance <= 1.2 * (r1 + r2):
-                            bond_lines.append([[atom1['x'], atom1['y'], atom1['z']],
-                                             [atom2['x'], atom2['y'], atom2['z']]])
+                            bond_lines.append([real1, real2])
             
             # Plot bonds
             for bond in bond_lines:
@@ -379,31 +454,50 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
                        'k-', linewidth=2, alpha=0.7)
         
         # Restore plot elements
-        ax.set_xlabel('X (fractional coordinates)')
-        ax.set_ylabel('Y (fractional coordinates)')
-        ax.set_zlabel('Z (fractional coordinates)')
+        ax.set_xlabel('X (Å)')
+        ax.set_ylabel('Y (Å)')
+        ax.set_zlabel('Z (Å)')
         
-        # Set title with current scale
+        # Set title with current scale and lattice info
         title = f'Crystal Structure - Atomic Radii Scale: {new_scale:.3f}x'
+        title += f'\na={lattice_params["a"]:.2f}Å, b={lattice_params["b"]:.2f}Å, c={lattice_params["c"]:.2f}Å'
+        title += f', α={lattice_params["alpha"]:.1f}°, β={lattice_params["beta"]:.1f}°, γ={lattice_params["gamma"]:.1f}°'
         if auto_scale:
-            title += f' (Auto-scaled, target overlap: {target_overlap:.1%})'
+            title += f'\nAuto-scaled, target overlap: {target_overlap:.1%}'
         ax.set_title(title, fontsize=14, fontweight='bold')
         
         # Set equal aspect ratio
         ax.set_box_aspect([1, 1, 1])
         
-        # Auto-adjust view limits
-        all_x = [atom['x'] for atom in original_atoms]
-        all_y = [atom['y'] for atom in original_atoms]
-        all_z = [atom['z'] for atom in original_atoms]
+        # Auto-adjust view limits using real space coordinates
+        all_real_coords = [convert_fractional_to_real((atom['x'], atom['y'], atom['z']), lattice_params) 
+                          for atom in original_atoms]
+        all_x = [coord[0] for coord in all_real_coords]
+        all_y = [coord[1] for coord in all_real_coords]
+        all_z = [coord[2] for coord in all_real_coords]
         
         # Add padding for atomic radii
-        max_radius = max([get_atomic_radius(atom['name']) * new_scale for atom in original_atoms])
+        max_radius = max([get_atomic_radius(element) * new_scale for element in element_groups.keys()])
         padding = max_radius + 0.1
         
-        ax.set_xlim([min(all_x) - padding, max(all_x) + padding])
-        ax.set_ylim([min(all_y) - padding, max(all_y) + padding])
-        ax.set_zlim([min(all_z) - padding, max(all_z) + padding])
+        # Calculate ranges for each axis
+        x_range = max(all_x) - min(all_x)
+        y_range = max(all_y) - min(all_y)
+        z_range = max(all_z) - min(all_z)
+        
+        # Find the maximum range to ensure equal scaling
+        max_range = max(x_range, y_range, z_range) + 2 * padding
+        
+        # Center the plot and set equal limits
+        x_center = (min(all_x) + max(all_x)) / 2
+        y_center = (min(all_y) + max(all_y)) / 2
+        z_center = (min(all_z) + max(all_z)) / 2
+        
+        half_range = max_range / 2
+        
+        ax.set_xlim([x_center - half_range, x_center + half_range])
+        ax.set_ylim([y_center - half_range, y_center + half_range])
+        ax.set_zlim([z_center - half_range, z_center + half_range])
         
         # Add grid
         ax.grid(True, alpha=0.3)
@@ -411,7 +505,10 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
         # Add scale factor information at top-left, aligned with status box
         if show_overlap_info:
             info_text = f'Scale Factor: {new_scale:.3f}x\n'
-            info_text += f'Min Distance: {min(all_x):.3f} to {max(all_x):.3f}\n'
+            info_text += f'Real Space Range:\n'
+            info_text += f'X: {min(all_x):.2f} to {max(all_x):.2f} Å\n'
+            info_text += f'Y: {min(all_y):.2f} to {max(all_y):.2f} Å\n'
+            info_text += f'Z: {min(all_z):.2f} to {max(all_z):.2f} Å\n'
             info_text += f'Max Radius: {max_radius:.3f} Å'
             
             ax.text2D(0.05, 0.95, info_text, transform=ax.transAxes, fontsize=10,
@@ -465,14 +562,14 @@ def plot_atoms(atoms, scale_factor=1.0, show_bonds=False, bond_cutoff=2.5,
         
         def on_auto_click(event):
             if auto_scale:
-                optimal_scale, _ = calculate_optimal_scale_factor(original_atoms, target_overlap)
+                optimal_scale, _ = calculate_optimal_scale_factor(original_atoms, lattice_params, target_overlap)
                 scale_slider.set_val(optimal_scale)
                 status_textbox.set_val(f'Auto-scaled: {optimal_scale:.3f}x')
             else:
                 status_textbox.set_val('Auto-scale not enabled')
         
         def on_optimal_click(event):
-            optimal_scale, _ = calculate_optimal_scale_factor(original_atoms, 0.0)  # No overlap
+            optimal_scale, _ = calculate_optimal_scale_factor(original_atoms, lattice_params, 0.0)  # No overlap
             scale_slider.set_val(optimal_scale)
             status_textbox.set_val(f'Optimal (no overlap): {optimal_scale:.3f}x')
         
@@ -863,11 +960,11 @@ def main():
     
     try:
         if args.mode == 'atoms':
-            atoms = read_crystal_structure(args.filename)
+            atoms, lattice_params = read_crystal_structure(args.filename)
             if not atoms:
                 print("No atom data found in the file or incorrect format.")
                 return
-            plot_atoms(atoms, scale_factor=args.scale, 
+            plot_atoms(atoms, lattice_params, scale_factor=args.scale, 
                       show_bonds=args.bonds, bond_cutoff=args.cutoff,
                       auto_scale=args.auto_scale, target_overlap=args.overlap,
                       show_overlap_info=not args.no_overlap_info,

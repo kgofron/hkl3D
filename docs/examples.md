@@ -273,7 +273,7 @@ python3 crystal3D.py data.hkl -m atoms -b -i
 python3 crystal3D.py data.hkl -m atoms -a -b -i
 ```
 
-### Legacy Tool with Lattice Parameters
+### Legacy Tool with Lattice Parameters (Still Available)
 
 ```bash
 # Enhanced crystal structure with automatic lattice parameter reading
@@ -289,6 +289,8 @@ python3 crystal_structure.py data.hkl -a -i
 python3 crystal_structure.py data.hkl -b -i
 ```
 
+**Note**: These features are now **fully integrated** into `crystal3D.py` as the unified tool. The legacy tool remains available for backward compatibility.
+
 ### Enhanced Reflections Mode
 
 ```bash
@@ -301,6 +303,21 @@ python3 crystal3D.py data.hkl -m reflections -s 100
 # Large size for visibility
 python3 crystal3D.py data.hkl -m reflections -s 500
 ```
+
+### Unified Tool Benefits
+
+#### **Single Interface for All Needs**
+```bash
+# Switch between modes seamlessly
+python3 crystal3D.py data.hkl -m atoms -a -i      # Crystal structure analysis
+python3 crystal3D.py data.hkl -m reflections      # HKL reflections analysis
+```
+
+#### **Consistent Controls and Layout**
+- **Same Interactive Controls**: Sliders, buttons, and status displays
+- **Professional Interface**: 18x14 inch display for crystal structure, 16x14 inch for reflections
+- **Unified Workflow**: Seamless transition between analysis modes
+- **Consistent Styling**: Professional appearance across all modes
 
 ### Lattice Parameter Examples
 

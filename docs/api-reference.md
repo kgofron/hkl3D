@@ -4,11 +4,15 @@
 
 This document provides detailed technical information about the functions, classes, and modules in the HKL3D project.
 
+## 🔄 **Integration Status**
+
+**`crystal3D.py` is now the unified tool** that incorporates all enhanced features from both `crystal_structure.py` and `hkl_reflections.py`. The legacy tools remain available for backward compatibility, but **`crystal3D.py` is the recommended solution** for all crystallographic visualization needs.
+
 ## Core Modules
 
 ### crystal3D.py
 
-The main module providing comprehensive crystallographic visualization capabilities.
+The main module providing comprehensive crystallographic visualization capabilities. **`crystal3D.py` now serves as the unified tool**, incorporating all enhanced features from both crystal structure visualization and HKL reflections analysis.
 
 #### Main Functions
 

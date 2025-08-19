@@ -14,9 +14,9 @@ The HKL3D project provides tools for visualizing and analyzing crystallographic 
 
 ## Crystal Structure Visualization
 
-### Enhanced Crystal Structure Mode ⭐ **MAJOR UPDATE**
+### Enhanced Crystal Structure Mode ⭐ **FULLY INTEGRATED**
 
-The crystal structure visualization has been **completely enhanced** with realistic atomic radii, 3D sphere rendering, and interactive controls.
+The crystal structure visualization has been **completely enhanced** with realistic atomic radii, 3D sphere rendering, and interactive controls. **All features are now available in the unified `crystal3D.py` tool**.
 
 #### Basic Usage
 
@@ -62,6 +62,9 @@ python3 crystal3D.py -m atoms -a -b -i filename.hkl
 - **Non-Orthogonal Support**: Handles triclinic, monoclinic, and orthorhombic systems
 - **Accurate Distances**: Bond detection and overlap analysis use real space distances
 - **Professional Output**: Displays both fractional and real space coordinates
+
+#### Legacy Tool Status
+The enhanced features from `crystal_structure.py` have been **fully integrated** into `crystal3D.py`. The legacy tool is still available for backward compatibility, but **`crystal3D.py` is now the recommended unified solution**.
 
 ## Enhanced Reciprocal Space Visualization
 

@@ -25,10 +25,10 @@ This documentation covers all aspects of the enhanced HKL3D toolkit:
 
 ## 🎯 **Enhanced Features Overview**
 
-### **Unified Crystal3D Tool** ⭐ **COMPLETELY ENHANCED**
-The `crystal3D.py` script now provides **two powerful modes** in a single, professional interface with **full enhanced features**:
+### **Unified Crystal3D Tool** ⭐ **FULLY INTEGRATED**
+The `crystal3D.py` script now provides **two powerful modes** in a single, professional interface with **complete enhanced features from both tools**:
 
-#### **1. Enhanced Crystal Structure Mode** (`-m atoms`) ⭐ **MAJOR UPDATE**
+#### **1. Enhanced Crystal Structure Mode** (`-m atoms`) ⭐ **FULLY INTEGRATED**
 - **3D Sphere Visualization**: True 3D spheres with realistic atomic radii (100+ elements)
 - **Smart Auto-Scaling**: Intelligent overlap reduction for optimal visibility
 - **Interactive Controls**: Real-time atomic radius scaling (0.01x to 1.0x)
@@ -39,6 +39,7 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 - **Lattice Parameter Integration**: Automatic reading and use of a, b, c, α, β, γ from .hkl files
 - **Real Space Coordinates**: Plots atoms in true Angstrom coordinates instead of fractional
 - **Accurate Crystallography**: Proper coordinate transformation for non-orthogonal systems
+- **Spherical Appearance**: Maintains perfect sphere shapes through equal axis scaling
 
 #### **2. Enhanced Reflections Mode** (`-m reflections`) ⭐ **MAJOR UPDATE**
 - **Advanced HKL Range Controls**: Independent H, K, L min/max sliders
@@ -49,6 +50,9 @@ The `crystal3D.py` script now provides **two powerful modes** in a single, profe
 - **Status Display**: Real-time feedback on current filter settings
 - **HKL Info Box**: On-plot information display
 - **Smart Plot Management**: Prevents overplotting and manages colorbars properly
+
+### **Legacy Tool Status** ⭐ **INTEGRATED**
+The enhanced features from `crystal_structure.py` have been **fully integrated** into `crystal3D.py`. The legacy tool is still available for backward compatibility, but **`crystal3D.py` is now the recommended unified solution**.
 
 ### **Enhanced Crystal Structure Tool** ⭐ **NEW**
 The `crystal_structure.py` script has been **completely enhanced** with:
@@ -73,7 +77,7 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 
 | Feature | crystal3D.py | crystal_structure.py | Legacy Tools |
 |---------|--------------|---------------------|--------------|
-| **Crystal Structure** | ✅ **FULLY ENHANCED** | ✅ **Enhanced Mode** | ✅ Basic Mode |
+| **Crystal Structure** | ✅ **FULLY INTEGRATED** | ✅ **Enhanced Mode** | ✅ Basic Mode |
 | **HKL Reflections** | ✅ **Enhanced Mode** | ❌ Not Available | ✅ Basic Mode |
 | **HKL Range Controls** | ✅ **Advanced** | ❌ Not Available | ✅ Basic |
 | **Intensity Filtering** | ✅ **Real-time** | ❌ Not Available | ✅ Basic |
@@ -89,6 +93,7 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 | **Bond Visualization** | ✅ **Chemical** | ✅ **Chemical** | ❌ None |
 | **Lattice Parameters** | ✅ **Automatic** | ✅ **Automatic** | ❌ None |
 | **Real Space Coordinates** | ✅ **Accurate** | ✅ **Accurate** | ❌ None |
+| **Unified Tool** | ✅ **YES** | ❌ **No** | ❌ **No** |
 
 ## 🎨 **Visualization Capabilities**
 
@@ -151,9 +156,9 @@ The `crystal_structure.py` script has been **completely enhanced** with:
 
 ## 🚀 **Getting Started**
 
-### **Quick Start**
+### **Quick Start** ⭐ **Unified Tool**
 ```bash
-# Enhanced crystal structure visualization (unified tool)
+# Enhanced crystal structure with lattice parameters (RECOMMENDED)
 python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -a -i
 
 # View reflections with enhanced controls
@@ -167,6 +172,12 @@ python3 crystal3D.py EntryWithCollCode176.hkl -m atoms -a -b -i
 
 # Custom size factor for reflections
 python3 crystal3D.py -m reflections -s 100 EntryWithCollCode55782.hkl
+```
+
+### **Legacy Tool** (Still Available)
+```bash
+# Enhanced crystal structure (legacy tool)
+python3 crystal_structure.py EntryWithCollCode176.hkl -a -i
 ```
 
 ### **Enhanced Crystal Structure Workflow**

@@ -2,6 +2,10 @@
 
 This guide helps you resolve common issues and problems when using HKL3D.
 
+## 🔄 **Integration Status**
+
+**`crystal3D.py` is now the unified tool** that incorporates all enhanced features from both `crystal_structure.py` and `hkl_reflections.py`. The legacy tools remain available for backward compatibility, but **`crystal3D.py` is the recommended solution** for all crystallographic visualization needs.
+
 ## 🚨 Common Issues
 
 ### Display Problems
