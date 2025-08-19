@@ -1,414 +1,352 @@
 # Examples
 
-This document provides practical examples and use cases for HKL3D, demonstrating how to use the various tools and features.
+*Last updated: 2025*
 
-## 🚀 Getting Started Examples
+This document provides practical examples and use cases for the HKL3D project tools.
 
-### Basic HKL Visualization
+## Crystal Structure Visualization
 
-#### Example 1: View HKL Reflections
+### Basic Atomic Structure Display
+
+View the atomic structure of a crystal from an HKL file:
+
 ```bash
-# Basic usage with default settings
-python3 hkl_reflections.py EntryWithCollCode176.hkl
+python3 crystal3D.py -m atoms EntryWithCollCode176.hkl
 ```
 
-**What happens:**
-- Loads all HKL reflections from the file
-- Displays 3D scatter plot with default size factor (50)
-- Shows interactive controls for range filtering
+**What you'll see:**
+- 3D scatter plot with Si atoms (red squares) and O atoms (blue circles)
+- Interactive 3D navigation (rotate, zoom, pan)
+- Equal aspect ratio maintaining crystallographic proportions
+- Professional layout suitable for publications
 
-#### Example 2: Custom Size Factor
-```bash
-# Start with larger spheres for better visibility
-python3 hkl_reflections.py -s 100 EntryWithCollCode176.hkl
+### Custom Analysis Script
+
+Create a custom script to analyze specific atomic positions:
+
+```python
+from crystal3D import read_crystal_structure
+
+# Load crystal structure
+atoms = read_crystal_structure('EntryWithCollCode176.hkl')
+
+# Find Si atoms in specific region
+si_atoms = [atom for atom in atoms if atom['name'].startswith('Si')]
+central_si = [atom for atom in si_atoms if abs(atom['x']) < 0.1 and 
+                                             abs(atom['y']) < 0.1 and 
+                                             abs(atom['z']) < 0.1]
+
+print(f"Found {len(central_si)} Si atoms in central region:")
+for atom in central_si:
+    print(f"  {atom['name']}: ({atom['x']:.3f}, {atom['y']:.3f}, {atom['z']:.3f})")
 ```
 
-**Result:**
-- Initial sphere size is 2x larger than default
-- Better visibility for presentations
-- Easier to see reflection patterns
+## Enhanced Reciprocal Space Visualization
 
-#### Example 3: Different Crystal System
+### Basic Reflection Display
+
+View crystal reflections with all enhanced controls:
+
 ```bash
-# View tetragonal crystal data
-python3 hkl_reflections.py ErRu2Si2/EntryWithCollCode55782.hkl
+python3 crystal3D.py -m reflections EntryWithCollCode55782.hkl
 ```
 
-**Features:**
-- Different H, K, L ranges (tetragonal vs monoclinic)
-- Different intensity distributions
-- Different reflection patterns
+**Enhanced Features Available:**
+- **HKL Range Controls**: Independent H, K, L min/max sliders
+- **Intensity Filtering**: Focus on strong reflections
+- **Size Controls**: Fine-tune sphere sizes from 1x to 1000x
+- **Interactive Buttons**: Toggle views, reset settings, clear filters
+- **Professional Interface**: Large 16x14 inch display with organized controls
 
-## 🔍 Interactive Analysis Examples
+### Custom Size Factor
 
-### Range Filtering Workflows
+Start with a larger size factor for better visibility:
 
-#### Example 4: Focus on Specific H Values
 ```bash
-python3 hkl_reflections.py EntryWithCollCode176.hkl
+python3 crystal3D.py -m reflections -s 100 EntryWithCollCode55782.hkl
 ```
 
-**Workflow:**
-1. **Load data** - All reflections visible
-2. **Adjust H Range** - Set H Min to 0, H Max to 2
-3. **Click "Show Filtered"** - Only reflections with H=0,1,2 visible
-4. **Observe pattern** - Notice clustering in H direction
+### Advanced Filtering Workflow
 
-#### Example 5: Intensity-Based Filtering
-```bash
-python3 hkl_reflections.py EntryWithCollCode176.hkl
+1. **Load Data**: Open the reflections mode
+2. **Initial Assessment**: View the complete dataset to understand the structure
+3. **Set Intensity Threshold**: Use the intensity slider to focus on strong reflections
+4. **Focus on Specific Region**: Adjust H, K, L ranges to focus on areas of interest
+5. **Fine-tune Size**: Use the size factor slider for optimal visibility
+6. **Toggle Views**: Switch between filtered and complete datasets as needed
+
+### Custom Analysis with Enhanced Controls
+
+```python
+from crystal3D import read_hkl_reflections, plot_reflections
+
+# Load reflection data
+reflections = read_hkl_reflections('EntryWithCollCode55782.hkl')
+
+# Pre-filter for strong reflections
+strong_reflections = [r for r in reflections if r[3] > 0.5]
+
+# Visualize with enhanced controls
+plot_reflections(strong_reflections, initial_size=75)
+
+# The enhanced interface will provide:
+# - HKL range sliders for further filtering
+# - Intensity threshold adjustment
+# - Size factor controls
+# - Interactive buttons for view management
 ```
 
-**Workflow:**
-1. **Load data** - All reflections visible
-2. **Adjust Intensity Min** - Increase to show only strong reflections
-3. **Click "Show Filtered"** - Only high-intensity reflections visible
-4. **Analyze** - Strong reflections often indicate important structural features
+## Rotation Schematic Generation
 
-#### Example 6: Combined Filtering
-```bash
-python3 hkl_reflections.py EntryWithCollCode176.hkl
-```
+### Basic Schematic
 
-**Workflow:**
-1. **Set H Range** - H Min: -2, H Max: 2
-2. **Set K Range** - K Min: -1, K Max: 1  
-3. **Set L Range** - L Min: 0, L Max: 4
-4. **Set Intensity Min** - High threshold for strong reflections
-5. **Click "Show Filtered"** - Focused view of specific region
+Generate a standard diffractometer rotation diagram:
 
-### Size Adjustment Examples
-
-#### Example 7: Size Presets
-```bash
-python3 hkl_reflections.py EntryWithCollCode176.hkl
-```
-
-**Workflow:**
-1. **Load data** - Default size factor
-2. **Click "2x Max"** - Double sphere sizes
-3. **Click "3x Max"** - Triple sphere sizes
-4. **Click "5x Max"** - Five times sphere sizes
-5. **Use Size Factor slider** - Fine-tune between presets
-
-#### Example 8: Dynamic Size Adjustment
-```bash
-python3 hkl_reflections.py EntryWithCollCode176.hkl
-```
-
-**Workflow:**
-1. **Load data** - Default settings
-2. **Drag Size Factor slider** - Watch spheres grow/shrink in real-time
-3. **Find optimal size** - Balance between visibility and clarity
-4. **Use Reset Size** - Return to default if needed
-
-## 🏗️ Crystal Structure Examples
-
-### Atomic Position Visualization
-
-#### Example 9: View Silicon Dioxide Structure
-```bash
-python3 crystal_structure.py EntryWithCollCode176.hkl
-```
-
-**What you see:**
-- Silicon atoms (Si) in 3D space
-- Oxygen atoms (O) surrounding silicon
-- Unit cell boundaries
-- Atomic coordination patterns
-
-#### Example 10: View ErRu2Si2 Structure
-```bash
-python3 crystal_structure.py ErRu2Si2/EntryWithCollCode55782.hkl
-```
-
-**Features:**
-- Erbium atoms at corners
-- Ruthenium atoms at face centers
-- Silicon atoms in tetrahedral coordination
-- Tetragonal symmetry visible
-
-## 🎪 Rotation Schematic Examples
-
-### Diffractometer Visualization
-
-#### Example 11: Basic Rotation Diagram
 ```bash
 python3 rotation_schematic.py
 ```
 
-**Output:**
-- 3D diagram showing rotation axes
-- Color-coded coordinate system
-- Rotation direction arrows
-- Professional presentation layout
+**Features Displayed:**
+- ω (Omega): X-axis rotation (red arrows)
+- χ (Chi): Y-axis rotation (green arrows)
+- φ (Phi): Z-axis rotation (blue arrows)
+- Right-handed coordinate system
+- Clear rotation direction indicators
 
-#### Example 12: Save High-Resolution Image
+### Save for Publication
+
+Save the schematic as a high-resolution image:
+
 ```bash
-python3 rotation_schematic.py --save rotation_diagram.png
+python3 rotation_schematic.py --save rotation_schematic.png
 ```
 
-**Result:**
-- High-resolution PNG file (300 DPI)
-- Suitable for publications
-- Professional appearance
-- Vector-like quality
+### Custom Schematic Script
 
-## 🔧 Combined Tool Examples
+```python
+from rotation_schematic import create_rotation_arrows, plot_rotation_schematic
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-### Crystal3D Multi-Mode Usage
+# Create custom schematic
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
 
-#### Example 13: Switch Between Modes
+# Add custom rotation arrows
+create_rotation_arrows(ax, [0, 0, 0], radius=1.5, axis='z', color='purple', alpha=0.8)
+
+# Customize the display
+ax.set_title('Custom Rotation Schematic')
+ax.set_xlim([-2, 2])
+ax.set_ylim([-2, 2])
+ax.set_zlim([-2, 2])
+
+plt.show()
+```
+
+## HKL Reflections Analysis (Legacy)
+
+### Basic Usage
+
+Use the standalone HKL reflections tool:
+
 ```bash
-# Start with reflections view
-python3 crystal3D.py -m reflections EntryWithCollCode176.hkl
-
-# Switch to atomic view
-python3 crystal3D.py -m atoms EntryWithCollCode176.hkl
+python3 hkl_reflections.py EntryWithCollCode55782.hkl
 ```
 
-#### Example 14: Custom Size with Combined Tool
-```bash
-# Large spheres for presentation
-python3 crystal3D.py -m reflections -s 200 EntryWithCollCode176.hkl
-```
+**Note**: This tool now has the same enhanced features as `crystal3D.py -m reflections`
 
-## 💻 C++ Tool Examples
+## Advanced Workflows
 
-### Command-Line Data Processing
+### Structure Determination Analysis
 
-#### Example 15: Basic HKL Reading
-```bash
-./read_hkl EntryWithCollCode176.hkl
-```
+1. **Load Crystal Structure**: Understand the atomic arrangement
+   ```bash
+   python3 crystal3D.py -m atoms structure.hkl
+   ```
 
-**Output:**
-```
-Found 178 reflections:
-H: 0 K: 0 L: 2 Mult: 1 d-spacing: 11.43050 |Fc|^2: 0.69358575E+00
-H: 2 K: 0 L: -2 Mult: 1 d-spacing: 8.89791 |Fc|^2: 0.74799341E+00
-...
-```
+2. **Analyze Reflections**: Examine the reciprocal space data
+   ```bash
+   python3 crystal3D.py -m reflections structure.hkl
+   ```
 
-#### Example 16: Process Multiple Files
-```bash
-# Process all HKL files in directory
-for file in *.hkl; do
-    echo "Processing $file..."
-    ./read_hkl "$file"
-    echo "---"
-done
-```
+3. **Focus on Strong Reflections**: Use intensity filtering to identify key reflections
+4. **Examine Specific Regions**: Use HKL range controls to focus on particular areas
+5. **Document Findings**: Save views and export data for publication
 
-## 📊 Data Analysis Examples
+### Batch Processing
 
-### Statistical Analysis
+Process multiple HKL files automatically:
 
-#### Example 17: Reflection Statistics
-```bash
-python3 hkl_reflections.py EntryWithCollCode176.hkl
-```
-
-**Information displayed:**
-- Total reflection count
-- H, K, L ranges
-- Intensity distribution
-- Data quality metrics
-
-#### Example 18: Crystal System Analysis
-```bash
-# Compare different crystal systems
-python3 hkl_reflections.py EntryWithCollCode176.hkl      # Monoclinic
-python3 hkl_reflections.py ErRu2Si2/EntryWithCollCode55782.hkl  # Tetragonal
-```
-
-**Observations:**
-- Different H, K, L patterns
-- Different symmetry constraints
-- Different reflection distributions
-
-## 🎨 Visualization Examples
-
-### Presentation-Quality Output
-
-#### Example 19: High-Resolution Screenshots
-```bash
-# Use matplotlib save functionality
-# In the interactive window, use File > Save As
-# Or use keyboard shortcut Ctrl+S
-```
-
-**Recommended settings:**
-- DPI: 300 or higher
-- Format: PNG or PDF
-- Size: 16x14 inches for HKL plots
-
-#### Example 20: Custom Color Schemes
-```bash
-# Modify the script to change colormap
-# Change 'viridis' to 'plasma', 'inferno', 'magma', etc.
-```
-
-## 🚀 Advanced Workflows
-
-### Research Analysis Pipeline
-
-#### Example 21: Complete Analysis Workflow
-```bash
-# 1. Convert CIF to HKL (if needed)
-cif2hkl input.cif --output data.hkl
-
-# 2. Quick data inspection
-./read_hkl data.hkl
-
-# 3. Interactive visualization
-python3 hkl_reflections.py data.hkl
-
-# 4. Generate rotation schematic
-python3 rotation_schematic.py --save schematic.png
-
-# 5. Export filtered data
-# Use the interactive controls to select region of interest
-```
-
-#### Example 22: Batch Processing
 ```bash
 #!/bin/bash
-# Process multiple crystal structures
-
-for crystal in crystals/*.hkl; do
-    name=$(basename "$crystal" .hkl)
-    echo "Processing $name..."
+# Process all HKL files in current directory
+for file in *.hkl; do
+    echo "Processing $file..."
     
-    # Generate visualization
-    python3 hkl_reflections.py "$crystal" &
+    # Generate reflection visualization
+    python3 crystal3D.py -m reflections "$file" &
     
-    # Wait for user interaction
-    read -p "Press Enter when done with $name..."
-    
-    # Kill the process
-    pkill -f "hkl_reflections.py"
+    # Wait a bit between files
+    sleep 2
 done
 ```
 
-### Integration Examples
+### Custom Filtering Script
 
-#### Example 23: With External Crystallographic Software
-```bash
-# Use HKL3D for visualization
-python3 hkl_reflections.py data.hkl
-
-# Export selected region to other software
-# Copy H, K, L values from status display
-# Paste into Excel, Python, or other analysis tools
-```
-
-#### Example 24: Data Pipeline Integration
-```bash
-# Automated processing script
-python3 -c "
-import hkl_reflections
-data = hkl_reflections.read_hkl_file('data.hkl')
-print(f'Loaded {len(data)} reflections')
-print(f'H range: {min(x[0] for x in data)} to {max(x[0] for x in data)}')
-print(f'K range: {min(x[1] for x in data)} to {max(x[1] for x in data)}')
-print(f'L range: {min(x[2] for x in data)} to {max(x[2] for x in data)}')
-"
-```
-
-## 🎯 Educational Examples
-
-### Learning Crystallography
-
-#### Example 25: Understanding Miller Indices
-```bash
-python3 hkl_reflections.py EntryWithCollCode176.hkl
-```
-
-**Learning points:**
-1. **H=0 reflections**: Show planes parallel to a-axis
-2. **K=0 reflections**: Show planes parallel to b-axis  
-3. **L=0 reflections**: Show planes parallel to c-axis
-4. **Combined indices**: Show inclined planes
-
-#### Example 26: Crystal Symmetry
-```bash
-# Compare different crystal systems
-python3 hkl_reflections.py EntryWithCollCode176.hkl      # Monoclinic
-python3 hkl_reflections.py ErRu2Si2/EntryWithCollCode55782.hkl  # Tetragonal
-```
-
-**Symmetry observations:**
-- **Monoclinic**: Different a, b, c lengths, β ≠ 90°
-- **Tetragonal**: a = b ≠ c, all angles = 90°
-
-## 🐛 Troubleshooting Examples
-
-### Common Issues and Solutions
-
-#### Example 27: Fix Display Issues
-```bash
-# Set matplotlib backend
-export MPLBACKEND=TkAgg
-
-# Run visualization
-python3 hkl_reflections.py EntryWithCollCode176.hkl
-```
-
-#### Example 28: Handle Large Files
-```bash
-# Use aggressive filtering for large datasets
-python3 hkl_reflections.py large_file.hkl
-
-# Set high intensity threshold
-# Use narrow H, K, L ranges
-# Focus on specific regions
-```
-
-## 📚 Further Examples
-
-### Custom Modifications
-
-#### Example 29: Add Custom Analysis
 ```python
-# Modify hkl_reflections.py to add custom features
-import numpy as np
+import os
+from crystal3D import read_hkl_reflections
 
-def analyze_reflections(hkl_data):
-    """Custom analysis function"""
-    h_vals = [x[0] for x in hkl_data]
-    k_vals = [x[1] for x in hkl_data]
-    l_vals = [x[2] for x in hkl_data]
+def analyze_reflections(filename, h_range=(-5, 5), k_range=(-5, 5), l_range=(-5, 5), min_intensity=0.1):
+    """Analyze reflections with custom filtering criteria."""
     
-    # Calculate statistics
-    print(f"H variance: {np.var(h_vals):.2f}")
-    print(f"K variance: {np.var(k_vals):.2f}")
-    print(f"L variance: {np.var(l_vals):.2f}")
+    # Load data
+    reflections = read_hkl_reflections(filename)
     
-    return h_vals, k_vals, l_vals
-```
-
-#### Example 30: Export Functions
-```python
-# Add export functionality
-def export_filtered_data(hkl_data, h_range, k_range, l_range, intensity_min):
-    """Export filtered data to file"""
+    # Apply filters
     filtered = []
-    for h, k, l, intensity in hkl_data:
+    for h, k, l, intensity in reflections:
         if (h_range[0] <= h <= h_range[1] and 
-            k_range[0] <= k <= k_range[1] and
-            l_range[0] <= l <= l_range[1] and
-            intensity >= intensity_min):
+            k_range[0] <= k <= k_range[1] and 
+            l_range[0] <= l <= l_range[1] and 
+            intensity >= min_intensity):
             filtered.append((h, k, l, intensity))
     
-    with open('filtered_data.txt', 'w') as f:
-        f.write("H\tK\tL\tIntensity\n")
-        for h, k, l, intensity in filtered:
-            f.write(f"{h}\t{k}\t{l}\t{intensity}\n")
+    print(f"File: {filename}")
+    print(f"Total reflections: {len(reflections)}")
+    print(f"Filtered reflections: {len(filtered)}")
+    print(f"Strongest reflection: {max(filtered, key=lambda x: x[3])}")
+    print()
     
-    return len(filtered)
+    return filtered
+
+# Analyze multiple files
+files = ['file1.hkl', 'file2.hkl', 'file3.hkl']
+for file in files:
+    if os.path.exists(file):
+        analyze_reflections(file, h_range=(-3, 3), min_intensity=0.5)
 ```
 
----
+## Integration Examples
 
-*Last updated: 2025*
+### Custom Analysis Dashboard
+
+```python
+import matplotlib.pyplot as plt
+from crystal3D import read_hkl_reflections, read_crystal_structure
+import numpy as np
+
+def create_analysis_dashboard(hkl_file):
+    """Create a comprehensive analysis dashboard."""
+    
+    # Load data
+    reflections = read_hkl_reflections(hkl_file)
+    atoms = read_crystal_structure(hkl_file)
+    
+    # Create subplots
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
+    
+    # Plot 1: HKL distribution
+    h, k, l, intensities = zip(*reflections)
+    ax1.scatter(h, k, c=intensities, cmap='viridis', alpha=0.6)
+    ax1.set_xlabel('H')
+    ax1.set_ylabel('K')
+    ax1.set_title('H-K Distribution')
+    
+    # Plot 2: Intensity histogram
+    ax2.hist(intensities, bins=50, alpha=0.7, edgecolor='black')
+    ax2.set_xlabel('Intensity')
+    ax2.set_ylabel('Count')
+    ax2.set_title('Intensity Distribution')
+    
+    # Plot 3: L vs Intensity
+    ax3.scatter(l, intensities, alpha=0.6)
+    ax3.set_xlabel('L')
+    ax3.set_ylabel('Intensity')
+    ax3.set_title('L vs Intensity')
+    
+    # Plot 4: Atom positions (top view)
+    si_atoms = [atom for atom in atoms if atom['name'].startswith('Si')]
+    o_atoms = [atom for atom in atoms if atom['name'].startswith('O')]
+    
+    si_x, si_y = zip(*[(atom['x'], atom['y']) for atom in si_atoms])
+    o_x, o_y = zip(*[(atom['x'], atom['y']) for atom in o_atoms])
+    
+    ax4.scatter(si_x, si_y, c='red', marker='s', s=100, label='Si')
+    ax4.scatter(o_x, o_y, c='blue', marker='o', s=80, label='O')
+    ax4.set_xlabel('X (fractional)')
+    ax4.set_ylabel('Y (fractional)')
+    ax4.set_title('Atomic Positions (Top View)')
+    ax4.legend()
+    
+    plt.tight_layout()
+    plt.show()
+
+# Use the dashboard
+create_analysis_dashboard('EntryWithCollCode55782.hkl')
+```
+
+### Export and Reporting
+
+```python
+def export_analysis_report(hkl_file, output_file):
+    """Export analysis results to a text report."""
+    
+    reflections = read_hkl_reflections(hkl_file)
+    atoms = read_crystal_structure(hkl_file)
+    
+    with open(output_file, 'w') as f:
+        f.write(f"HKL Analysis Report: {hkl_file}\n")
+        f.write("=" * 50 + "\n\n")
+        
+        # Summary statistics
+        f.write(f"Total reflections: {len(reflections)}\n")
+        f.write(f"Total atoms: {len(atoms)}\n\n")
+        
+        # Intensity analysis
+        intensities = [r[3] for r in reflections]
+        f.write(f"Intensity statistics:\n")
+        f.write(f"  Minimum: {min(intensities):.2e}\n")
+        f.write(f"  Maximum: {max(intensities):.2e}\n")
+        f.write(f"  Mean: {np.mean(intensities):.2e}\n")
+        f.write(f"  Median: {np.median(intensities):.2e}\n\n")
+        
+        # Strongest reflections
+        f.write("Top 10 strongest reflections:\n")
+        sorted_reflections = sorted(reflections, key=lambda x: x[3], reverse=True)
+        for i, (h, k, l, intensity) in enumerate(sorted_reflections[:10]):
+            f.write(f"  {i+1:2d}. HKL({h:3d},{k:3d},{l:3d}): {intensity:.2e}\n")
+        
+        f.write("\nReport generated successfully!\n")
+    
+    print(f"Analysis report saved to {output_file}")
+
+# Generate report
+export_analysis_report('EntryWithCollCode55782.hkl', 'analysis_report.txt')
+```
+
+## Best Practices
+
+### Performance Optimization
+
+1. **Use Intensity Filtering**: Start with intensity thresholds to reduce data size
+2. **Gradual Range Adjustment**: Make small changes to HKL ranges for smooth updates
+3. **Size Factor Management**: Use moderate size factors (50-200) for best performance
+4. **Memory Management**: Close plots when not needed to free memory
+
+### Visualization Quality
+
+1. **Start with Full Range**: Begin with complete dataset to understand structure
+2. **Focus on Strong Reflections**: Use intensity filtering to identify key features
+3. **Use Appropriate Size Factors**: Balance visibility with performance
+4. **Save Important Views**: Export high-quality images for documentation
+
+### Data Analysis
+
+1. **Systematic Filtering**: Use HKL ranges methodically to explore different regions
+2. **Document Settings**: Note filter settings for reproducible results
+3. **Compare Views**: Use toggle functionality to compare filtered vs. complete data
+4. **Export Results**: Save filtered datasets for further analysis
+
+These examples demonstrate the comprehensive capabilities of the enhanced HKL3D tools, providing professional-grade crystallographic analysis suitable for research, education, and publication purposes.
