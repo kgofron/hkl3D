@@ -14,7 +14,16 @@ The spec-like .hkl diffraciton intensities are obtained from .cif Crystallograph
 	* ./read_hkl EntryWithCollCode176.hkl 
 
 ## Python plot hkl intensities
-* ./hkl_reflections.py EntryWithCollCode176.hk
+
+#### Reciprocal space
+
+Added radjustment of hkl space size, minimum intensity, size factor (reflection intensity)
+
+* python3 hkl_reflections.py ErRu2Si2/EntryWithCollCode55782.hkl
+* ./hkl_reflections.py EntryWithCollCode176.hkl
+
+#### Real space
+
 * Plot real space crystal structure
 	* ./crystal_structure.py
 * Dependencies
@@ -23,3 +32,14 @@ The spec-like .hkl diffraciton intensities are obtained from .cif Crystallograph
 * Combined function
 	* ./crystal3d.py -m reflections EntryWithCollCode176.hkl
 	* ./crystal3d.py -m atoms EntryWithCollCode176.hkl
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `docs/` folder:
+
+* **[Installation Guide](docs/installation.md)** - Setup and installation instructions
+* **[User Guide](docs/user-guide.md)** - How to use all tools and features
+* **[API Reference](docs/api-reference.md)** - Technical documentation
+* **[File Formats](docs/file-formats.md)** - HKL and CIF format specifications
+* **[Examples](docs/examples.md)** - Practical usage examples
+* **[Troubleshooting](docs/troubleshooting.md)** - Common issues and solutions
